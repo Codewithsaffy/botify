@@ -3,7 +3,7 @@ interface IConnection {
   isConnected?: number;
 }
 const conection: IConnection = {};
-async function dbConnet() {
+async function dbConnect() {
   if (conection.isConnected) {
     console.log("db Already Connected");
     return;
@@ -18,4 +18,4 @@ async function dbConnet() {
   }
 }
 
-export {dbConnet}
+export {dbConnect}

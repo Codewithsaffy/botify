@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import {  TPost } from "../../types";
+import { TPost } from "../../types";
 
 const PostSchema = new Schema<TPost>(
   {
@@ -28,7 +28,6 @@ const PostSchema = new Schema<TPost>(
     },
     category: {
       type: String,
-      // enum: Categories,
       required: [true, "Category is required"],
     },
     authorId: {

@@ -1,9 +1,9 @@
-import { dbConnet } from "@/helper/dbConnection";
+import { dbConnect } from "@/helper/dbConnection";
 import { Like } from "@/models/Likes.model";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-  // await dbConnet();
+  // await dbConnect();
   // const like = await Like.insertMany([
   //   { postId: "6732966b8fafad51f1dd7302", likerId: "673293e08fafad51f1dd72eb" },
   //   { postId: "6732966b8fafad51f1dd7303", likerId: "673293e08fafad51f1dd72ec" },
@@ -62,21 +62,73 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
     }
-    await dbConnet();
+    await dbConnect();
     const existingLike = await Like.findOne({ $or: [{ postId }, { likerId }] });
 
     if (existingLike) {
+      const removeLike = await Like.findByIdAndDelete(existingLike._id);
       return NextResponse.json(
-        { message: "Already liked this post" },
-        { status: 409 }
+        {isLike: false , message: "Like removed" },
+        { status: 200 }
       );
     }
 
     const likeRecord = await Like.create({ postId, likerId });
     await likeRecord.save();
-    return NextResponse.json(likeRecord, { status: 201 });
+    return NextResponse.json(
+      { isLike: true , message: "Like created" },
+      { status: 201 }
+    );
   } catch (error) {
     console.error("Error in like request:", error);
+    return NextResponse.json(
+      { message: "Internal Server Error",  },
+      { status: 500 }
+    );
+  }
+}
+
+export async function GET(req: NextRequest) {
+  try {
+    //  const { _id } = await req.json();
+    await dbConnect();
+    const likes = await Like.find();
+    if (!likes) {
+      return NextResponse.json(
+        { message: "Like relationship not found" },
+        { status: 404 }
+      );
+    }
+    return NextResponse.json({ likes }, { status: 200 });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(
+      { message: "Internal Server Error" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const { _id } = await req.json();
+    if (!_id) {
+      return NextResponse.json(
+        { message: "Both postId and likerId are required" },
+        { status: 400 }
+      );
+    }
+    await dbConnect();
+    const like = await Like.findByIdAndDelete(_id);
+    if (!like) {
+      return NextResponse.json(
+        { message: "Like relationship not found" },
+        { status: 404 }
+      );
+    }
+    return NextResponse.json(like, { status: 200 });
+  } catch (error) {
+    console.error("Error in unlike request:", error);
     return NextResponse.json(
       { message: "Internal Server Error" },
       { status: 500 }

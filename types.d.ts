@@ -10,6 +10,7 @@ export interface TUser {
   username: string;
   email: string;
   image: string;
+  thumbnail?: string;
   about?: string;
 }
 
@@ -27,11 +28,20 @@ export interface TPost {
   image: string;
   description: string;
   slug: string;
-  category: String;
+  category: string;
   authorId: Schema.Types.ObjectId;
   content: string;
   createdAt: Date;
   updatedAt: Date;
+}
+
+export interface TNotification{
+  _id?: string;
+  userId: Schema.Types.ObjectId;
+  message: string;
+  url: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 // Comment type

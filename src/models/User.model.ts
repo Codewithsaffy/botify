@@ -31,6 +31,10 @@ const UserSchema = new Schema<TUser>(
       required: [true, "User image is required"],
       trim: true,
     },
+    thumbnail: {
+      type: String,
+      trim: true,
+    },
     about: {
       type: String,
       maxlength: [200, "About section must not exceed 200 characters"],
