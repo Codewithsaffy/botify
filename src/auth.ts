@@ -1,23 +1,31 @@
 import NextAuth from "next-auth";
-import Github from "next-auth/providers/github";
-import Google from "next-auth/providers/google";
-
-export const { handlers, auth, signIn, signOut } = NextAuth({
+import GitHubProvider from "next-auth/providers/github";
+import GoogleProvider from "next-auth/providers/google";
+import { authConfig } from "./auth.config";
+export const {
+  handlers: { GET, POST },
+  auth,
+  signIn,
+  signOut,
+} = NextAuth({
+  ...authConfig,
   providers: [
-    Google({
-      clientId: process.env.AUTH_GOOGLE_ID,
-      clientSecret: process.env.AUTH_GOOGLE_SECRET,
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_SECRET_ID,
+
       authorization: {
         params: {
-          prompt: "consent",
+          prompt: "consent", // ask google continue or not
           access_type: "offline",
           response_type: "code",
         },
       },
     }),
-    Github({
-      clientId: process.env.AUTH_GITHUB_ID,
-      clientSecret: process.env.AUTH_GITHUB_SECRET,
+    GitHubProvider({
+      clientId: process.env.GIT_CLIENT_ID,
+      clientSecret: process.env.GIT_SECRET_ID,
+
       authorization: {
         params: {
           prompt: "consent",
