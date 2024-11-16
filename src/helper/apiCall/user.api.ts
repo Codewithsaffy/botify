@@ -1,10 +1,11 @@
-"use server";
+// "use server";
+
 import { TUser } from "../../../types";
 import { httpAxios } from "../httpAxios";
 
 export const registerUser = async (data: TUser) => {
   try {
-    const response = await httpAxios.post("/api/register", data);
+    const response = await httpAxios.post("/api/user", data);
     return response;
   } catch (error) {
     console.error(error);
@@ -18,3 +19,5 @@ export const getAllUsers = async () => {
     console.error(error);
   }
 };
+
+

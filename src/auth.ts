@@ -1,9 +1,6 @@
 import NextAuth from "next-auth";
-import Credentials from "next-auth/providers/credentials";
-import bcrypt from "bcrypt";
 import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
-import { getUserByEmail } from "./actions/socialLogin";
 import { authConfig } from "./auth.config";
 export const {
   handlers: { GET, POST },

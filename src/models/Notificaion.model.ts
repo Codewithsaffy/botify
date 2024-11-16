@@ -18,6 +18,10 @@ const NotificationSchema = new Schema<TNotification>(
       type: String,
       required: [true, "Notificationer is required"],
     },
+    read: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

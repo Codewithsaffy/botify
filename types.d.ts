@@ -40,6 +40,7 @@ export interface TNotification{
   userId: Schema.Types.ObjectId;
   message: string;
   url: string;
+  read?: boolean;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -62,3 +63,27 @@ export interface TLike {
   createdAt: Date;
   updatedAt: Date;
 }
+
+
+
+// Define the type for a user result
+type UserResult = {
+  type: "user";
+  name: string;
+  username: string;
+  image: string;
+};
+
+// Define the type for a post result
+type PostResult = {
+  type: "post";
+  title: string;
+  slug: string;
+  image: string;
+};
+
+// Union type for the results array
+type SearchResult = UserResult | PostResult;
+
+// Array type
+export type SearchResults = SearchResult[];

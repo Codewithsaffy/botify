@@ -1,19 +1,21 @@
 import { dbConnect } from "@/helper/dbConnection";
-import { User } from "@/models/User.model"; 
-import { Post } from "@/models/Post.model"; 
+import { User } from "@/models/User.model";
+import { Post } from "@/models/Post.model";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: NextRequest) {
-  await dbConnect();
-  const { searchParams } = new URL(req.url);
-  const query = searchParams.get("query");
+export async function POST(req: NextRequest) {
+  const { query } = await req.json();
 
   try {
     if (!query) {
-      return NextResponse.json({ message: "Query parameter is required" }, { status: 400 });
+      return NextResponse.json(
+        { message: "Query parameter is required" },
+        { status: 400 }
+      );
     }
 
     // Search users
+    await dbConnect();
     const users = await User.find({
       $or: [
         { name: { $regex: query, $options: "i" } },
@@ -35,14 +37,26 @@ export async function GET(req: NextRequest) {
 
     // Combine results
     const results = [
-      ...users.map(user => ({ type: "user", name: user.name, username: user.username, image: user.image })),
-      ...posts.map(post => ({ type: "post", title: post.title, slug: post.slug, image: post.image })),
+      ...users.map((user) => ({
+        type: "user",
+        name: user.name,
+        username: user.username,
+        image: user.image,
+      })),
+      ...posts.map((post) => ({
+        type: "post",
+        title: post.title,
+        slug: post.slug,
+        image: post.image,
+      })),
     ];
 
     return NextResponse.json({ results }, { status: 200 });
-
   } catch (error) {
     console.error("Error searching users and posts:", error);
-    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
+    return NextResponse.json(
+      { message: "Internal Server Error" },
+      { status: 500 }
+    );
   }
 }

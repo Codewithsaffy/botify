@@ -2,14 +2,17 @@ import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import Image from "next/image";
 import React from "react";
-import { doLogout } from "@/actions/socialLogin";
+import { doLogout, isAuthenticated } from "@/actions/authentication";
 import { FaUserCircle } from "react-icons/fa";
 
 const DashboardPage = async () => {
+  const authhai = await isAuthenticated();
+  if (!authhai) return redirect("/signin");
+
   const session = await auth();
+  if (!session?.user) return redirect("/signin");
 
-  if (!session?.user) redirect("/register");
-
+  // if (!authhai) redirect("/");
   return (
     <form
       action={doLogout}
@@ -17,7 +20,7 @@ const DashboardPage = async () => {
     >
       <nav className="bg-white rounded-2xl shadow-2xl p-10 max-w-md w-full text-center">
         <h1 className="text-4xl font-bold text-gray-900 mb-4">
-          Welcome, {session.user.name}!
+          Welcome, {session?.user!.name}!
         </h1>
         <p className="text-gray-600 mb-10 text-lg">
           Manage your account and explore exclusive features.
