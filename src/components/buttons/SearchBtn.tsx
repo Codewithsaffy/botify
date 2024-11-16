@@ -18,17 +18,18 @@ const SearchBtn = ({ className }: { className: string }) => {
   const [results, setResults] = React.useState<SearchResults>([]);
   console.log(results);
   const handleSearch = async () => {
-    if (!query) {
+    if (!query || query.trim() === "") {
       setResults([]);
       return;
     }
 
     try {
       const res = await searching(query);
-
-      setResults(res?.data.results);
+      if (res?.data?.results) {
+        setResults(res?.data.results);
+      }
+      setResults([]);
     } catch (error) {
-      console.error("Search error:", error);
       setResults([]); // Clear results on error
     }
   };
