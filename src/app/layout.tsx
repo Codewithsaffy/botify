@@ -29,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={` ${roboto.className} ${lora.variable}`}>
-           {/* <Header />  */}
+           <Header /> 
           {children}
           <Toaster />
       </body>

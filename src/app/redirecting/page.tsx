@@ -1,9 +1,11 @@
 import { isAuthenticated } from "@/actions/authentication";
 import { auth } from "@/auth";
 import { registerUser } from "@/helper/apiCall/user.api";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 const Page = async () => {
+  const header = headers()
   try {
     const session = await auth();
     if (!session?.user) return redirect("/signin");

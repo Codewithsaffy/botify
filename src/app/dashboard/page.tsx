@@ -4,8 +4,12 @@ import Image from "next/image";
 import React from "react";
 import { doLogout, isAuthenticated } from "@/actions/authentication";
 import { FaUserCircle } from "react-icons/fa";
+import { headers } from "next/headers";
+
 
 const DashboardPage = async () => {
+  const header = headers()
+
   const authhai = await isAuthenticated();
   if (!authhai) return redirect("/signin");
 

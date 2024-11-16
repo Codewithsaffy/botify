@@ -23,7 +23,7 @@ const NotificationBtn = async ({ userId }: { userId: string }) => {
     throw new Error("Failed to fetch data");
   }
   const { notifications } = await res.json();
-  let no = notifications.length > 9 ? "9+" : notifications.length;
+  let no = notifications.length > 99 ? "99+" : notifications.length;
 
   return (
     <DropdownMenu>
@@ -34,7 +34,7 @@ const NotificationBtn = async ({ userId }: { userId: string }) => {
             className="text-gray-700 transition-transform duration-300 hover:scale-110"
           />
           <div className="absolute -top-1 right-0 w-[20px] h-[20px] flex justify-center items-center text-[12px] font-semibold text-white bg-red-500 rounded-full shadow-md">
-            {no}
+            99+
           </div>
         </div>
       </DropdownMenuTrigger>
