@@ -1,10 +1,10 @@
 import React from "react";
-import { TUser } from "../../../types";
+import { TUser } from "../../../../types";
 import Link from "next/link";
 import { FiEdit } from "react-icons/fi";
-import NotificationBtn from "../buttons/NotificationBtn";
-import ProfileBtn from "../buttons/ProfileBtn";
-import SearchBtn from "../buttons/SearchBtn";
+import NotificationBtn from "./NotificationBtn";
+import ProfileBtn from "./ProfileBtn";
+import SearchBtn from "./SearchBtn";
 
 const PrivateHeaderComponents = async ({ user }: { user: TUser }) => {
   return (

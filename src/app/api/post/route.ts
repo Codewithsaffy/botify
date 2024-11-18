@@ -57,59 +57,19 @@ export async function POST(req: NextRequest) {
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const category = searchParams.get("category");
+  // const limit = parseInt(searchParams.get("limit") || "10", 10); // Default to 10 items
+  // const page = parseInt(searchParams.get("page") || "1", 10); // Default to page 1
+  // const skip = (page - 1) * limit;
 
   try {
     await dbConnect();
- if (!category || category === "all") {
-  const posts = await Post.aggregate([
-    {
-      $lookup: {
-        from: "users",
-        localField: "authorId",
-        foreignField: "_id",
-        as: "author",
-      },
-    },
-    { $unwind: "$author" },
-    {
-      $lookup: {
-        from: "likes",
-        localField: "_id",
-        foreignField: "postId",
-        as: "likes",
-      },
-    },
-    {
-      $lookup: {
-        from: "comments",
-        localField: "_id",
-        foreignField: "postId",
-        as: "comments",
-      },
-    },
-    {
-      $project: {
-        title: 1,
-        image: 1,
-        description: 1,
-        publishDate: "$createdAt",
-        "author.image": "$author.image",
-        "author.username": "$author.username",
-        "author.name": "$author.name",
-        likes: { $size: "$likes" },
-        comments: { $size: "$comments" },
-      },
-    },
-  ])
-      return NextResponse.json(
-        {  posts },
-        { status: 201 }
-      )
-}
-    
-    // Aggregation pipeline
+    let matchCondition = {};
+    if (category && category !== "" && category !== "All") {
+      matchCondition = { category };
+    }
+
     const posts = await Post.aggregate([
-      { $match: { category: category } },
+      { $match: matchCondition },
       {
         $lookup: {
           from: "users",
@@ -139,16 +99,23 @@ export async function GET(req: NextRequest) {
         $project: {
           title: 1,
           image: 1,
+          slug: 1,
           description: 1,
           publishDate: "$createdAt",
           "author.image": "$author.image",
           "author.username": "$author.username",
           "author.name": "$author.name",
           likes: { $size: "$likes" },
-          comments: { $size: "$comments" },
+          comments: { $size: "$comments" }
         },
       },
+      { $sort: { publishDate: -1 } }, // Sort by most recent
+      // { $skip: skip },
+      // { $limit: limit },
     ]);
+
+    // const totalPosts = await Post.countDocuments(matchCondition);
+    // const hasMore = skip + posts.length < totalPosts;
 
     return NextResponse.json({ posts }, { status: 200 });
   } catch (error) {

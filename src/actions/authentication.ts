@@ -24,7 +24,7 @@ export async function doLogout() {
 //   });
 //   return response;
 // }
-interface IAuthencation {
+export interface IAuthencation {
   isAuthenticated: boolean;
   user?: TUser;
   message?: string;

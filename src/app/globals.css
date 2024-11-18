@@ -72,6 +72,9 @@
 .font-lora{
   font-family: var(--font-lora);
 }
+body{
+  overflow-x: hidden;
+}
 
   /* HTML: <div class="loader"></div> */
 /* HTML: <div class="loader"></div> */

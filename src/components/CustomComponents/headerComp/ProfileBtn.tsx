@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import { TUser } from "../../../types";
+import { TUser } from "../../../../types";
 import {
   DropdownMenu,
   DropdownMenuContent,

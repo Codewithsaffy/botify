@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { SearchResults } from "../../../types";
+import { SearchResults } from "../../../../types";
 import {
   Dialog,
   DialogContent,
@@ -58,8 +58,8 @@ const SearchBtn = ({ className }: { className: string }) => {
           </div>
         </DialogTrigger>
 
-        <DialogContent className="sm:w-[500px] w-[300px] overflow-hidden max-h-[400px] p-0 overflow-y-scroll">
-          <DialogHeader className="w-full bg-white px-4 pt-4 pb-2 sticky top-0 z-10">
+        <DialogContent className="sm:w-[500px] w-[300px]  max-h-[300px] p-0 overflow-y-scroll">
+          <DialogHeader className="w-full bg-white px-4 pt-4 pb-2 sticky top-0 ">
             <div className="flex border-b border-gray-300 items-center justify-between gap-4 w-full">
               <CiSearch size={25} />
               <input
@@ -88,9 +88,7 @@ const SearchBtn = ({ className }: { className: string }) => {
               ) : (
                 results.map((result) => (
                   <Link
-                    key={
-                      result.type === "user" ? result.username : result.slug
-                    }
+                    key={result.type === "user" ? result.username : result.slug}
                     href={
                       result.type === "user"
                         ? `/profile/${result.username}`

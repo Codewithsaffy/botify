@@ -44,6 +44,22 @@ export interface TNotification{
   createdAt?: Date;
   updatedAt?: Date;
 }
+export interface CardData {
+  _id: string;
+  title: string;
+  image: string;
+  description: string;
+  slug: string;
+  author: {
+    image: string;
+    username: string;
+    name: string;
+  };
+  publishDate: string; // ISO date format
+  likes: number;
+  comments: number;
+}
+
 
 // Comment type
 export interface TComment {

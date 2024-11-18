@@ -2,15 +2,15 @@ import { isAuthenticated } from "@/actions/authentication";
 import Image from "next/image";
 import Link from "next/link";
 import React, { Suspense } from "react";
-import SearchBtn from "../buttons/SearchBtn";
-import PrivateHeaderComponents from "../CustomComponents/PrivateHeaderComponents";
+import SearchBtn from "../CustomComponents/headerComp/SearchBtn";
+import PrivateHeaderComponents from "../CustomComponents/headerComp/PrivateHeaderComponents";
 
 const HeaderComponent = async () => {
   const authenticated = await isAuthenticated();
-  //  await new Promise((resolve) => setTimeout(resolve, 5000));
+  console.log(authenticated)
 
   return (
-    <nav className="flex justify-between items-center px-6 h-14">
+    <nav className="flex justify-between sticky top-0 bg-white z-10 border-b-[1px] border-gray-300 items-center px-6 h-14">
       <div className="flex justify-between items-center gap-8">
         <Link className="flex justify-center  items-center gap-1" href={"/"}>
         <Image

@@ -1,0 +1,22 @@
+export const categories = [
+  { category: "All" },
+  { category: "Technology" },
+  { category: "Security" },
+  { category: "Workplace" },
+  { category: "Blockchain" },
+  { category: "Automotive" },
+  { category: "AI" },
+  { category: "Education" },
+  { category: "Environment" },
+  { category: "Tech" },
+  { category: "Retail" },
+  { category: "Quantum" },
+  { category: "Marketing" },
+  { category: "Manufacturing" },
+  { category: "Cloud" },
+  { category: "Fashion" },
+  { category: "Health" },
+  { category: "Gaming" },
+  { category: "Business" },
+  { category: "Finance" }
+]

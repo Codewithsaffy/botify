@@ -1,5 +1,6 @@
 import { dbConnect } from "@/helper/dbConnection";
 import { Follow } from "@/models/Follow.model";
+import { Mongoose } from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -224,6 +225,7 @@ export async function POST(req: NextRequest) {
   // ]);
   try {
     const { userId, authorId } = await req.json();
+  
 
     // Validate required fields
     if (!userId || !authorId) {
@@ -255,6 +257,7 @@ export async function POST(req: NextRequest) {
     }
     // Create a new follow record
     const followRecord = await Follow.create({ userId, authorId });
+    await followRecord.save();
     if (!followRecord) {
       return NextResponse.json(
         { message: "Failed to create follow record" },
@@ -275,16 +278,3 @@ export async function POST(req: NextRequest) {
 }
 
 
-export async function  GET(req: NextRequest) {
-  try {
-    await dbConnect();
-    const follows = await Follow.find();
-    return NextResponse.json({ follows }, { status: 200 });
-  } catch (error) {
-    console.error(error);
-    return NextResponse.json(
-      { message: "Internal Server Error" },
-      { status: 500 }
-    );
-  }
-}

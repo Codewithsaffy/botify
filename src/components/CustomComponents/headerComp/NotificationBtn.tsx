@@ -9,15 +9,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
-import { TNotification } from "../../../types";
+import { TNotification } from "../../../../types";
 import { formatDistanceToNow } from "date-fns";
 
 const NotificationBtn = async ({ userId }: { userId: string }) => {
   const res = await fetch(
-    `${process.env.BASE_URL}/api/user/notification/${userId}`,
-    {
-      cache: "no-store",
-    }
+    `${process.env.BASE_URL}/api/user/notification/${userId}`
   );
   if (!res.ok) {
     throw new Error("Failed to fetch data");
@@ -34,7 +31,7 @@ const NotificationBtn = async ({ userId }: { userId: string }) => {
             className="text-gray-700 transition-transform duration-300 hover:scale-110"
           />
           <div className="absolute -top-1 right-0 w-[20px] h-[20px] flex justify-center items-center text-[12px] font-semibold text-white bg-red-500 rounded-full shadow-md">
-            99+
+            {no}
           </div>
         </div>
       </DropdownMenuTrigger>
