@@ -7,7 +7,6 @@ import PrivateHeaderComponents from "../CustomComponents/headerComp/PrivateHeade
 
 const HeaderComponent = async () => {
   const authenticated = await isAuthenticated();
-  console.log(authenticated)
 
   return (
     <nav className="flex justify-between sticky top-0 bg-white z-10 border-b-[1px] border-gray-300 items-center px-6 h-14">

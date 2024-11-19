@@ -16,76 +16,71 @@ export async function GET(
     }
     await dbConnect();
     const postData = await Post.aggregate([
-      // Match the post by slug
       {
-        $match: { slug: slug }
+        $match: { slug: slug },
       },
-    
-      // Lookup to fetch author details
+
       {
         $lookup: {
           from: "users",
           localField: "authorId",
           foreignField: "_id",
-          as: "author"
-        }
+          as: "author",
+        },
       },
-    
-      // Unwind author to include only the first element of the author array
+
       {
-        $unwind: "$author"
+        $unwind: "$author",
       },
-    
-      // Project only the necessary author fields
+
       {
         $addFields: {
           author: {
             name: "$author.name",
             username: "$author.username",
-            image: "$author.image"
-          }
-        }
+            image: "$author.image",
+          },
+        },
       },
-    
-      // Lookup to fetch likes
+
       {
         $lookup: {
           from: "likes",
           localField: "_id",
           foreignField: "postId",
-          as: "likes"
-        }
+          as: "likes",
+        },
       },
-    
+
       // Add a field to count likes
       {
         $addFields: {
-          likes: { $size: "$likes" }
-        }
+          likes: { $size: "$likes" },
+        },
       },
-    
+
       // Lookup to fetch comments and count them directly
       {
         $lookup: {
           from: "comments",
           localField: "_id",
           foreignField: "postId",
-          as: "comments"
-        }
+          as: "comments",
+        },
       },
-    
+
       // Add a field to count comments without returning comment data
       {
         $addFields: {
-          commentCount: { $size: "$comments" }
-        }
+          commentCount: { $size: "$comments" },
+        },
       },
-    
+
       // Limit the results to only one post (it will return an object)
       {
-        $limit: 1
+        $limit: 1,
       },
-    
+
       // Project the final fields for the post including author and counts
       {
         $project: {
@@ -101,14 +96,14 @@ export async function GET(
           updatedAt: 1,
           author: 1,
           likes: 1,
-          commentCount: 1 // Only include the comment count
-        }
-      }
+          commentCount: 1,
+        },
+      },
     ]);
-    
+
     const post = postData[0];
     // If there's no post, return a response indicating that
-    
+
     if (post) {
       return NextResponse.json(
         { post, message: "Post found successfully" },

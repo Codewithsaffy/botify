@@ -18,7 +18,8 @@ export async function GET(
   try {
     await dbConnect();
     const follows = await Follow.findOne({
-      $or: [{ userId }, { authorId }],
+      userId,
+      authorId,
     });
     if (!follows) {
       return NextResponse.json({ isFollow: false }, { status: 200 });

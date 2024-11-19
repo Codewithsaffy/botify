@@ -8,7 +8,7 @@ interface Props {
 export async function getAllBlogCards(category: string) {
   try {
     const response = await httpAxios.get(
-      `/api/post?category=${category}`
+      `/api/post/all-post-cards?category=${category}`
     );
     return response;
   } catch (error) {

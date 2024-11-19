@@ -9,7 +9,6 @@ const CategoryBar = () => {
   const ref = useRef<HTMLUListElement>(null);
   const searchParams = useSearchParams();
   const currentCategory = searchParams.get("category") || "All";
-  console.log(currentCategory)
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
 

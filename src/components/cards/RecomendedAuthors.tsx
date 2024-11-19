@@ -4,13 +4,12 @@ import React from "react";
 import FollowBtn from "../buttons/FollowBtn";
 import Image from "next/image";
 import { isAuthenticated } from "@/actions/authentication";
-import { redirect } from "next/navigation";
 
 export const revalidate = 60;
 const RecomendedAuthors = async () => {
-  const userId = (await isAuthenticated()).user?._id?.toString();
-  if (!userId) return redirect("/signin");
-  const authors = await getRecommendedAuthosr(userId);
+  const auth = await isAuthenticated();
+  const userId = auth?.user?._id!.toString();
+  const authors = await getRecommendedAuthosr(userId!);
   const { recommendedAuthors } = authors?.data;
   return (
     <div className="flex flex-col gap-6 w-full">
@@ -44,7 +43,12 @@ const RecomendedAuthors = async () => {
                   </h3>
                 </div>
               </Link>
-              <FollowBtn userId={author._id} AuthorId={author._id} />
+              <FollowBtn
+                simple={false}
+                isAuthenticated={auth.isAuthenticated}
+                userId={userId!}
+                AuthorId={author._id}
+              />
             </div>
           ))}
       </div>

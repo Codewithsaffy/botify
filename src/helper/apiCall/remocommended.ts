@@ -3,7 +3,7 @@ import { httpAxios } from "../httpAxios";
 
 export async function getRecommendedAuthosr(userId: string) {
   try {
-    const res = await httpAxios.get(`/api/recommended/author/${userId}`);
+    const res = await httpAxios.get(`/api/recommended/author/${userId || ""}`);
     return res;
   } catch (error) {
     console.error(error);

@@ -7,11 +7,24 @@ import { dbConnect } from "@/helper/dbConnection";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { userId: string } }
+  { params }: { params: { userId?: string | null | undefined} }
 ) {
-  const userId = params.userId;
+  const userId = params?.userId;
+
   try {
     await dbConnect();
+
+    // If the user is not authenticated or no userId is provided, return top authors
+    if (!userId) {
+      const topAuthors = await User.find({})
+        .sort({ followersCount: -1 }) // Sort by followers or any relevant metric
+        .limit(5)
+        .select("name image username about")
+        .exec();
+      return NextResponse.json({ recommendedAuthors: topAuthors });
+    }
+
+    // Fetch user-specific data if a userId is provided
     const userFollows = await Follow.find({ userId }).exec();
     const followedAuthorsIds = userFollows.map((follow) => follow.authorId);
 
@@ -23,12 +36,14 @@ export async function GET(
 
     const popularCategories = userLikes.map((like) => like._id);
 
+    // If no followed authors or popular categories, return top authors
     if (followedAuthorsIds.length === 0 && popularCategories.length === 0) {
-      const recommendedAuthors = await User.find({})
+      const topAuthors = await User.find({})
+        .sort({ followersCount: -1 })
         .limit(5)
         .select("name image username about")
         .exec();
-      return NextResponse.json({ recommendedAuthors });
+      return NextResponse.json({ recommendedAuthors: topAuthors });
     }
 
     // Build the query to exclude followed authors and recommend based on popular categories
@@ -46,10 +61,19 @@ export async function GET(
       ],
     };
 
-    // Fetch recommended authors with specific fields
-    const recommendedAuthors = await User.find(query)
+    // Fetch recommended authors based on the query
+    let recommendedAuthors = await User.find(query)
       .select("name image username about")
       .exec();
+
+    // If no recommended authors found, fall back to top authors
+    if (recommendedAuthors.length === 0) {
+      recommendedAuthors = await User.find({})
+        .sort({ followersCount: -1 })
+        .limit(5)
+        .select("name image username about")
+        .exec();
+    }
 
     return NextResponse.json({ recommendedAuthors });
   } catch (error) {

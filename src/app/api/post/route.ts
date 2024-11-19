@@ -6,14 +6,11 @@ export async function POST(req: NextRequest) {
   await dbConnect();
 
   try {
-    // Connect to the database
     await dbConnect();
 
-    // Parse JSON data from the request
     const { title, image, description, category, authorId, content, slug } =
       await req.json();
 
-    // Check for required fields
     if (
       !title ||
       !image ||
@@ -55,21 +52,9 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET(req: NextRequest) {
-  const { searchParams } = new URL(req.url);
-  const category = searchParams.get("category");
-  // const limit = parseInt(searchParams.get("limit") || "10", 10); // Default to 10 items
-  // const page = parseInt(searchParams.get("page") || "1", 10); // Default to page 1
-  // const skip = (page - 1) * limit;
-
   try {
     await dbConnect();
-    let matchCondition = {};
-    if (category && category !== "" && category !== "All") {
-      matchCondition = { category };
-    }
-
-    const posts = await Post.aggregate([
-      { $match: matchCondition },
+    const postData = await Post.aggregate([
       {
         $lookup: {
           from: "users",
@@ -78,7 +63,21 @@ export async function GET(req: NextRequest) {
           as: "author",
         },
       },
-      { $unwind: "$author" },
+
+      {
+        $unwind: "$author",
+      },
+
+      {
+        $addFields: {
+          author: {
+            name: "$author.name",
+            username: "$author.username",
+            image: "$author.image",
+          },
+        },
+      },
+
       {
         $lookup: {
           from: "likes",
@@ -87,6 +86,15 @@ export async function GET(req: NextRequest) {
           as: "likes",
         },
       },
+
+      // Add a field to count likes
+      {
+        $addFields: {
+          likes: { $size: "$likes" },
+        },
+      },
+
+      // Lookup to fetch comments and count them directly
       {
         $lookup: {
           from: "comments",
@@ -95,31 +103,51 @@ export async function GET(req: NextRequest) {
           as: "comments",
         },
       },
+
+      // Add a field to count comments without returning comment data
       {
-        $project: {
-          title: 1,
-          image: 1,
-          slug: 1,
-          description: 1,
-          publishDate: "$createdAt",
-          "author.image": "$author.image",
-          "author.username": "$author.username",
-          "author.name": "$author.name",
-          likes: { $size: "$likes" },
-          comments: { $size: "$comments" }
+        $addFields: {
+          commentCount: { $size: "$comments" },
         },
       },
-      { $sort: { publishDate: -1 } }, // Sort by most recent
-      // { $skip: skip },
-      // { $limit: limit },
+
+      // Limit the results to only one post (it will return an object)
+      {
+        $limit: 1,
+      },
+
+      // Project the final fields for the post including author and counts
+      {
+        $project: {
+          _id: 1,
+          title: 1,
+          image: 1,
+          description: 1,
+          slug: 1,
+          tags: 1,
+          authorId: 1,
+          content: 1,
+          createdAt: 1,
+          updatedAt: 1,
+          author: 1,
+          likes: 1,
+          commentCount: 1, // Only include the comment count
+        },
+      },
     ]);
 
-    // const totalPosts = await Post.countDocuments(matchCondition);
-    // const hasMore = skip + posts.length < totalPosts;
+    const post = postData[0];
+    // If there's no post, return a response indicating that
 
-    return NextResponse.json({ posts }, { status: 200 });
+    if (post) {
+      return NextResponse.json(
+        { post, message: "Post found successfully" },
+        { status: 200 }
+      );
+    }
+    return NextResponse.json({ message: "Post not found" }, { status: 404 });
   } catch (error) {
-    console.error(error);
+    console.log(error);
     return NextResponse.json(
       { message: "Internal Server Error" },
       { status: 500 }

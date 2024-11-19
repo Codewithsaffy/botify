@@ -1,19 +1,11 @@
-"use client"
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { dracula } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { useState } from 'react';
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { dracula } from "react-syntax-highlighter/dist/esm/styles/prism";
+import CopyCode from "../buttons/CopyCode";
 
-
-export default function MarkdownRenderer({markdown}:{markdown:string}) {
-  const [copyStatus, setCopyStatus] = useState<{ [key: number]: string }>({});
-
-  const handleCopyCode = (code: string, index: number) => {
-    navigator.clipboard.writeText(code);
-    setCopyStatus((prev) => ({ ...prev, [index]: 'Copied!' }));
-    setTimeout(() => setCopyStatus((prev) => ({ ...prev, [index]: '' })), 2000);
-  };
+export default function MarkdownRenderer({ markdown }: { markdown: string }) {
+ 
 
   return (
     <div className="markdown-content prose max-w-none w-[80vw] mx-auto">
@@ -21,17 +13,11 @@ export default function MarkdownRenderer({markdown}:{markdown:string}) {
         remarkPlugins={[remarkGfm]}
         components={{
           code({ node, inline, className, children, ...props }: any) {
-            const match = /language-(\w+)/.exec(className || '');
-            const codeString = String(children).replace(/\n$/, '');
-
+            const match = /language-(\w+)/.exec(className || "");
+            const codeString = String(children).replace(/\n$/, "");
             return !inline && match ? (
               <div className="relative">
-                <button
-                  className="absolute top-2 right-2 bg-gray-700 text-white py-1 px-2 rounded text-xs hover:bg-gray-600"
-                  onClick={() => handleCopyCode(codeString, node.position.start.line)}
-                >
-                  {copyStatus[node.position.start.line] || 'Copy'}
-                </button>
+                <CopyCode codeString={codeString} node={node} />
                 <SyntaxHighlighter
                   style={dracula}
                   language={match[1]}

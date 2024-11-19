@@ -44,18 +44,25 @@ export interface TNotification{
   createdAt?: Date;
   updatedAt?: Date;
 }
+
+
+
+
 export interface CardData {
   _id: string;
   title: string;
   image: string;
   description: string;
+  content?: string;
   slug: string;
   author: {
+    _id?: string;
     image: string;
     username: string;
     name: string;
   };
-  publishDate: string; // ISO date format
+  publishDate: string; 
+  createdAt?: string; // ISO date format
   likes: number;
   comments: number;
 }
@@ -103,3 +110,21 @@ type SearchResult = UserResult | PostResult;
 
 // Array type
 export type SearchResults = SearchResult[];
+
+
+export interface PostType {
+  _id: string; // Assuming MongoDB ObjectId is converted to a string
+  title: string;
+  image: string;
+  description: string;
+  slug: string;
+  tags: string[];
+  authorId: string; // Assuming the authorId is a string, e.g., an ObjectId
+  content: string;
+  createdAt: Date;
+  updatedAt: Date;
+  author: string; // Adjust the type if `author` has more detailed data (e.g., an object)
+  likes: number;
+  commentCount: number;
+}
+

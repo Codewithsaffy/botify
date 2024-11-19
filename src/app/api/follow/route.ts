@@ -225,7 +225,6 @@ export async function POST(req: NextRequest) {
   // ]);
   try {
     const { userId, authorId } = await req.json();
-  
 
     // Validate required fields
     if (!userId || !authorId) {
@@ -239,9 +238,7 @@ export async function POST(req: NextRequest) {
     await dbConnect();
 
     // Check if the follow relationship already exists
-    const existingFollow = await Follow.findOne({
-      $or: [{ userId }, { authorId }],
-    });
+    const existingFollow = await Follow.findOne({ userId, authorId });
     if (existingFollow) {
       const deleteFollow = await Follow.findByIdAndDelete(existingFollow._id);
       if (!deleteFollow) {
@@ -276,5 +273,3 @@ export async function POST(req: NextRequest) {
     );
   }
 }
-
-
