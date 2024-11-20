@@ -35,7 +35,7 @@ export interface TPost {
   updatedAt: Date;
 }
 
-export interface TNotification{
+export interface TNotification {
   _id?: string;
   userId: Schema.Types.ObjectId;
   message: string;
@@ -44,9 +44,6 @@ export interface TNotification{
   createdAt?: Date;
   updatedAt?: Date;
 }
-
-
-
 
 export interface CardData {
   _id: string;
@@ -61,12 +58,11 @@ export interface CardData {
     username: string;
     name: string;
   };
-  publishDate: string; 
+  publishDate: string;
   createdAt?: string; // ISO date format
   likes: number;
   comments: number;
 }
-
 
 // Comment type
 export interface TComment {
@@ -86,8 +82,6 @@ export interface TLike {
   createdAt: Date;
   updatedAt: Date;
 }
-
-
 
 // Define the type for a user result
 type UserResult = {
@@ -111,20 +105,43 @@ type SearchResult = UserResult | PostResult;
 // Array type
 export type SearchResults = SearchResult[];
 
+interface Author {
+  _id: string;
+  name: string;
+  username: string;
+  email: string;
+  image: string;
+  __v: number;
+  createdAt: string;
+  updatedAt: string;
+}
 
-export interface PostType {
-  _id: string; // Assuming MongoDB ObjectId is converted to a string
+export interface BlogPost {
+  _id: string;
   title: string;
   image: string;
   description: string;
   slug: string;
-  tags: string[];
-  authorId: string; // Assuming the authorId is a string, e.g., an ObjectId
   content: string;
-  createdAt: Date;
-  updatedAt: Date;
-  author: string; // Adjust the type if `author` has more detailed data (e.g., an object)
+  createdAt: string;
+  updatedAt: string;
+  author: Author;
   likes: number;
   commentCount: number;
 }
 
+interface Commenter {
+  _id: string;
+  name: string;
+  username: string;
+  image: string;
+}
+
+export interface Comment {
+  _id: string;
+  comment: string;
+  commenter: Commenter;
+  createdAt: string;
+  updatedAt: string;
+  postId: string;
+}

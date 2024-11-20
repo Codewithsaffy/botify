@@ -90,7 +90,6 @@ export async function GET(
           description: 1,
           slug: 1,
           tags: 1,
-          authorId: 1,
           content: 1,
           createdAt: 1,
           updatedAt: 1,

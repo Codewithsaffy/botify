@@ -11,7 +11,7 @@ const PrivateHeaderComponents = async ({ user }: { user: TUser }) => {
     <>
       <div className="flex h-full justify-center space-x-4 sm:space-x-8 items-center">
         <Link
-          href={`/new-post/${user}`}
+          href={`/new-post/${user.username}`}
           className="sm:flex hidden  items-center justify-center gap-1  h-full"
         >
           <FiEdit size={25} className="text-[#6A4B3C]" />

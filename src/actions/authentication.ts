@@ -29,7 +29,7 @@ export interface IAuthencation {
   user?: TUser;
   message?: string;
 }
-export async function isAuthenticated(): Promise<IAuthencation> {
+export async function isAuthenticated() {
   try {
     const session = await auth();
     if (!session?.user) return { isAuthenticated: false };

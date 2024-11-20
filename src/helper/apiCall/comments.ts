@@ -8,3 +8,20 @@ export const getAllComments = async (postId: string) => {
     console.error(error);
   }
 };
+
+export const postComment = async (
+  comment: string,
+  commenterId: string,
+  postId: string
+) => {
+  try {
+    const response = await httpAxios.post(`/api/comment`, {
+      comment,
+      commenterId,
+      postId,
+    });
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};

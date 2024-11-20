@@ -20,4 +20,20 @@ export const getAllUsers = async () => {
   }
 };
 
-
+export const editUser = async (
+  email: string,
+  data: {
+    name?: string;
+    image?: string;
+    about?: string;
+    username?: string;
+    thumbnail?: string;
+  }
+) => {
+  try {
+    const response = await httpAxios.patch("/api/user", { email, ...data });
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};

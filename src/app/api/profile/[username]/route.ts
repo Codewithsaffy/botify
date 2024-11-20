@@ -16,7 +16,7 @@ export async function GET(
     }
     await dbConnect();
 
-    const userProfilyeData = await User.aggregate([
+    const profileData = await User.aggregate([
       {
         $match: {
           username: username,
@@ -35,8 +35,6 @@ export async function GET(
           postCount: { $size: "$posts" },
         },
       },
-
-      // Count followers of the user
       {
         $lookup: {
           from: "follows",
@@ -50,22 +48,6 @@ export async function GET(
           followerCount: { $size: "$followers" },
         },
       },
-
-      // Count users this user is following
-      {
-        $lookup: {
-          from: "follows",
-          localField: "_id",
-          foreignField: "userId",
-          as: "following",
-        },
-      },
-      {
-        $addFields: {
-          followingCount: { $size: "$following" },
-        },
-      },
-
       {
         $project: {
           _id: 1,
@@ -77,13 +59,17 @@ export async function GET(
           about: 1,
           postCount: 1,
           followerCount: 1,
-          followingCount: 1,
         },
       },
     ]);
-    if (userProfilyeData) {
-      return NextResponse.json(userProfilyeData, { status: 200 });
+    if (profileData) {
+      return NextResponse.json(profileData, { status: 200 });
     }
     return NextResponse.json({ message: "User not found" }, { status: 404 });
-  } catch (error) {}
+  } catch (error) {
+    return NextResponse.json(
+      { message: "Internal Server Error" },
+      { status: 500 }
+    );
+  }
 }
