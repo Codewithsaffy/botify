@@ -18,4 +18,4 @@ async function dbConnect() {
   }
 }
 
-export {dbConnect}
+export { dbConnect };

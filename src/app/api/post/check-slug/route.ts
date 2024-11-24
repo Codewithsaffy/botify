@@ -1,9 +1,11 @@
+import { dbConnect } from "@/helper/dbConnection";
 import { Post } from "@/models/Post.model";
 import mongoose from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   try {
+    await dbConnect()
     const { slug, authorId } = await req.json();
 
     if (!slug || !authorId) {
