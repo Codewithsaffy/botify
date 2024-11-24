@@ -46,7 +46,7 @@ const CategoryBar = () => {
   };
 
   return (
-    <nav className="flex  justify-between sticky top-[56px] bg-[#ffff] items-center pt-6 border-b-[1px] h-[70px] border-gray-300 w-full overflow-hidden px-10">
+    <nav className="flex  justify-between sticky top-[56px] z-10 bg-[#ffff] items-center pt-6 border-b-[1px] h-[70px] border-gray-300 w-full overflow-hidden px-10">
       
 
       
