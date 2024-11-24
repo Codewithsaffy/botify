@@ -56,7 +56,6 @@ export async function GET(req: NextRequest) {
 export async function PATCH(req: NextRequest) {
   try {
     await dbConnect();
-
     // Parse the request data, which could contain any fields
     const data = await req.json();
     const { email, ...updateFields } = data;

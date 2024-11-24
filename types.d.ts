@@ -29,10 +29,10 @@ export interface TPost {
   description: string;
   slug: string;
   category: string;
-  authorId: Schema.Types.ObjectId;
+  authorId: Schema.Types.ObjectId | string;
   content: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface TNotification {

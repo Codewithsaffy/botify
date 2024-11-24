@@ -8,11 +8,13 @@ import LikeBtn from "@/components/buttons/Like";
 import Comments from "@/components/buttons/Comments";
 import MarkdownRenderer from "@/components/ui/MarkDown";
 import { Skeleton } from "@/components/ui/skeleton";
+import CloudnaryImage from "@/components/CustomComponents/CloudnaryImage";
+import Link from "next/link";
 
 export const revalidate = 60;
 
 const PostPageLoader = () => (
-  <div className="flex flex-col gap-4 px-4 py-6 mx-auto max-w-[500px] sm:max-w-[700px]">
+  <div className="flex flex-col gap-4 px-4 py-10 mx-auto max-w-[500px] sm:max-w-[700px]">
     <Skeleton className="w-full h-8 mb-2" />
     <Skeleton className="w-3/4 h-6 mb-3" />
     <div className="flex items-center gap-3 w-full">
@@ -47,16 +49,16 @@ const Blog = async ({ params }: { params: { slug: string } }) => {
   const publishDate = format(date, "MMM d, yyyy");
 
   return (
-    <main className="flex flex-col gap-4 px-4 py-6 mx-auto max-w-[500px] sm:max-w-[700px]">
+    <main className="flex flex-col gap-4 px-4 py-6 sm:py-14 mx-auto max-w-[500px] sm:max-w-[700px]">
       <div className="flex flex-col gap-2">
-        <h2 className="text-3xl text-gray-900 font-bold font-lora leading-snug sm:text-4xl">
+        <h2 className="text-4xl text-gray-900 font-bold font-lora leading-snug sm:text-4xl">
           {post.title}
         </h2>
         <h4 className="text-lg font-medium text-gray-600 font-lora leading-snug sm:text-2xl">
           {post.description}
         </h4>
       </div>
-      <section className="flex items-center gap-3 w-full">
+      <section className="flex items-center gap-3 w-full mt-2">
         <Image
           src={`/damyuser.avif`}
           alt="user image"
@@ -68,9 +70,9 @@ const Blog = async ({ params }: { params: { slug: string } }) => {
         />
         <div className="flex flex-col">
           <div className="flex items-center gap-2">
-            <p className="text-gray-900 text-sm sm:text-base font-semibold">
+            <Link href={`/profile/${post.author.username}`} className="text-gray-900 text-sm hover:underline sm:text-base font-semibold">
               {post.author.name}
-            </p>
+            </Link>
             <p>.</p>
             <FollowBtn
               simple={true}
@@ -90,7 +92,7 @@ const Blog = async ({ params }: { params: { slug: string } }) => {
       <section className="flex items-center gap-6 border-y border-gray-200 py-3">
         <LikeBtn
           isAuthenticated={auth.isAuthenticated}
-          likerId={userId}
+          likerId={userId || ""}
           postId={post._id}
           likes={post.likes}
         />
@@ -98,21 +100,30 @@ const Blog = async ({ params }: { params: { slug: string } }) => {
           initialCommentsNo={post.commentCount}
           postId={post._id}
           isAuthenticated={auth.isAuthenticated}
-          commenterDetail={JSON.parse(JSON.stringify(auth.user))}
+          commenterDetail={JSON.parse(JSON.stringify(auth.user || {}))}
         />
       </section>
-      <Image
-        src={`/damy.avif`}
+
+      <CloudnaryImage
+        src={post.image}
         alt="post image"
         width={500}
         height={500}
         quality={80}
         priority
-        className="w-full h-auto rounded-sm"
+        className="w-full h-[200px] md:h-[300px] rounded-sm"
       />
-      <section>
-        <MarkdownRenderer />
-      </section>
+      <section className="w-full mt-4 max-w-[500px] sm:max-w-[700px] mx-auto prose prose-sm sm:prose-lg">
+  {post.content ? (
+    <div
+      dangerouslySetInnerHTML={{ __html: post.content }}
+    ></div>
+  ) : (
+    <MarkdownRenderer />
+  )}
+</section>
+
+
     </main>
   );
 };

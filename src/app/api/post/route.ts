@@ -25,6 +25,14 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
     }
+    const existingPost = await Post.findOne({ slug });
+
+    if (existingPost) {
+      return NextResponse.json(
+        { message: "Post already exists" },
+        { status: 400 }
+      );
+    }
 
     // Create and save the post
     const post = await Post.create({
@@ -131,13 +139,12 @@ export async function GET(req: NextRequest) {
           updatedAt: 1,
           author: 1,
           likes: 1,
-          commentCount: 1, // Only include the comment count
+          commentCount: 1, 
         },
       },
     ]);
 
     const post = postData[0];
-    // If there's no post, return a response indicating that
 
     if (post) {
       return NextResponse.json(
@@ -148,6 +155,37 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ message: "Post not found" }, { status: 404 });
   } catch (error) {
     console.log(error);
+    return NextResponse.json(
+      { message: "Internal Server Error" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function PATCH(req: NextRequest) {
+  try {
+    await dbConnect()
+    const { _id, content } = await req.json();
+    if (!_id) {
+      return NextResponse.json(
+        { message: "id is required for post identification" },
+        { status: 400 }
+      );
+    }
+
+    const post = await Post.findByIdAndUpdate(
+      { _id },
+      { content },
+      { new: true }
+    );
+
+    if (!post) {
+      return NextResponse.json({ message: "post not found" }, { status: 404 });
+    }
+
+    return NextResponse.json(post, { status: 200 });
+  } catch (error) {
+    console.error(error);
     return NextResponse.json(
       { message: "Internal Server Error" },
       { status: 500 }

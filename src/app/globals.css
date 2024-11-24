@@ -94,3 +94,96 @@ body{
   animation: l3 1s infinite linear;
 }
 @keyframes l3 {to{transform: rotate(1turn)}}
+
+.hljs {
+  background: #a28ae3; /* Dark background */
+  color: #c9d1d9; /* Light gray for text */
+  padding: 1rem;
+  border-radius: 8px;
+  font-family: "Fira Code", monospace;
+  line-height: 1.5;
+}
+
+/* Keywords and operators (e.g., if, else, return) */
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-literal,
+.hljs-symbol {
+  color: #00adb5; /* Blue-green for keywords */
+  font-weight: bold;
+}
+
+/* Strings */
+.hljs-string {
+  color: #ffab76; /* Warm orange for strings */
+}
+
+/* Comments */
+.hljs-comment {
+  color: #6a6a6a; /* Gray for comments */
+  font-style: italic;
+}
+
+/* Numbers and Constants */
+.hljs-number,
+.hljs-builtin-name {
+  color: #ff5733; /* Bright reddish-brown for numbers */
+}
+
+/* Functions */
+.hljs-function,
+.hljs-title {
+  color: #61dafb; /* Sky blue for functions */
+}
+
+/* Variables and Parameters */
+.hljs-variable,
+.hljs-attr {
+  color: #ffd700; /* Gold for variables and attributes */
+}
+
+/* Class Names */
+.hljs-class {
+  color: #c792ea; /* Soft purple for class names */
+}
+
+/* Tags (HTML/XML) */
+.hljs-tag {
+  color: #ff5722; /* Deep orange for tags */
+}
+
+/* Attributes */
+.hljs-attribute {
+  color: #50fa7b; /* Bright green for attributes */
+}
+
+/* Background for inline code blocks */
+.hljs-inline {
+  background: #2c2c2c;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+}
+
+/* Borders for better visual separation */
+.hljs {
+  border: 1px solid #333; /* Subtle border around the code block */
+}
+
+/* Add custom hover effects */
+.hljs:hover {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+.custom-quill-editor .ql-editor {
+  line-height: 2; 
+  padding: 10px; 
+  font-size: 16px; 
+}
+
+.custom-quill-editor .ql-editor pre {
+  margin: 0;
+  padding: 5px 10px;
+  background-color: #f5f5f5;
+  border-radius: 5px;
+  font-family: 'Fira code', monospace;
+  line-height: 1.8; 
+}

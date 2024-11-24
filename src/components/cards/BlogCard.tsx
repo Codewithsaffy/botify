@@ -5,10 +5,12 @@ import { formatDistanceToNow } from "date-fns";
 import { FaComment } from "react-icons/fa";
 import { AiFillLike } from "react-icons/ai";
 import { CardData } from "../../../types";
+import CloudnaryImage from "../CustomComponents/CloudnaryImage";
+import PostEditOrDelete from "./PostEditOrDelete";
 
-const BlogCard = ({ cardData }: { cardData: CardData }) => {
+const BlogCard = ({ cardData, isAuthenticated, edit }: { cardData: CardData; isAuthenticated?: boolean; edit?: boolean }) => {
   return (
-    <div className="flex flex-col gap-4 border-b-[1px] border-gray-300 py-5 px-3 sm:px-4">
+    <div className="flex relative flex-col gap-4 border-b-[1px] border-gray-300 py-5 px-3 sm:px-4">
       <Link
         href={`/profile/${cardData.author.username}`}
         className="flex items-center space-x-2"
@@ -38,13 +40,20 @@ const BlogCard = ({ cardData }: { cardData: CardData }) => {
             </p>
           </div>
           <div className="relative h-[80px] w-[120px] sm:h-[107px] sm:w-[160px]">
-            <Image
-              src={"/damycard.webp"}
+            <CloudnaryImage 
+              src={cardData.image}
               alt="blog image"
               layout="fill"
               quality={80}
               className="rounded-md object-cover object-center -z-10"
-            />
+              />
+            {/* <Image
+              src={}}
+              alt="blog image"
+              layout="fill"
+              quality={80}
+              className="rounded-md object-cover object-center -z-10"
+            /> */}
           </div>
         </div>
 
@@ -60,6 +69,10 @@ const BlogCard = ({ cardData }: { cardData: CardData }) => {
           </div>
         </div>
       </Link>
+      {
+    
+       isAuthenticated &&  edit && <PostEditOrDelete username={cardData.author.username} isAuthenticated={isAuthenticated} postId={cardData._id.toString()}/>
+      }
     </div>
   );
 };

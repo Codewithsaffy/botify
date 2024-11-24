@@ -18,15 +18,18 @@ import {
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { editUser } from "@/helper/apiCall/user.api";
+import { redirect } from "next/navigation";
 
 const ProfileBottom = ({
   email,
   initialAbout,
   autherId,
+  isAuthenticated,
 }: {
   email: string;
   autherId: string;
   initialAbout: string;
+  isAuthenticated?: boolean;
 }) => {
   const [posts, setPosts] = React.useState([]);
   const [activeTab, setActiveTab] = React.useState("posts");
@@ -35,6 +38,10 @@ const ProfileBottom = ({
   const [loading, setLoading] = useState(false);
 
   const handleAddBio = async () => {
+    if (!isAuthenticated) {
+      redirect("/signin");
+    }
+
     setLoading(true);
     try {
       const res = await editUser(email, { about: inputValue } as any);
@@ -99,7 +106,12 @@ const ProfileBottom = ({
         <div className="flex flex-col gap-4">
           {posts.length > 0 ? (
             posts.map((post: any) => (
-              <BlogCard key={post._id} cardData={post} />
+              <BlogCard
+                isAuthenticated={isAuthenticated}
+                edit={true}
+                key={post._id}
+                cardData={post}
+              />
             ))
           ) : (
             <p className="text-gray-600 text-center">No posts available.</p>
@@ -113,43 +125,49 @@ const ProfileBottom = ({
               <p className="text-gray-700 mt-2">{about}</p>
             </div>
           ) : (
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button className="rounded-full px-6 py-2 text-white bg-blue-500 font-bold shadow-lg">
-                  Add Bio
-                </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>About</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    Add a few details about yourself
-                  </AlertDialogDescription>
-                  <div>
-                    <Textarea
-                      name="about"
-                      id="about"
-                      value={inputValue}
-                      className="w-full mt-2"
-                      placeholder="Add a few details about yourself"
-                      onChange={(e) => setInputValue(e.target.value)}
-                    />
-                  </div>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogAction
-                    className="rounded-full px-4 py-2 text-white bg-blue-500 font-bold shadow-md hover:bg-blue-600"
-                    onClick={handleAddBio}
-                  >
-                    {loading ? (
-                      <FiLoader className="animate-spin text-lg" />
-                    ) : (
-                      "Add"
-                    )}
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
+            isAuthenticated ? (
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button className="rounded-full px-6 py-2 text-white bg-blue-500 font-bold shadow-lg">
+                    Add Bio
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>About</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      Add a few details about yourself
+                    </AlertDialogDescription>
+                    <div>
+                      <Textarea
+                        name="about"
+                        id="about"
+                        value={inputValue}
+                        className="w-full mt-2"
+                        placeholder="Add a few details about yourself"
+                        onChange={(e) => setInputValue(e.target.value)}
+                      />
+                    </div>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogAction
+                      className="rounded-full px-4 py-2 text-white bg-blue-500 font-bold shadow-md hover:bg-blue-600"
+                      onClick={handleAddBio}
+                    >
+                      {loading ? (
+                        <FiLoader className="animate-spin text-lg" />
+                      ) : (
+                        "Add"
+                      )}
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            ) : (
+              <p className="text-gray-600 text-center">
+               This user hasn&apos; t added a bio yet.
+              </p>
+            )
           )}
         </div>
       )}
