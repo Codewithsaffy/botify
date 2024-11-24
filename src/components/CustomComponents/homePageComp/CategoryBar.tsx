@@ -31,7 +31,7 @@ const CategoryBar = () => {
         left: 80,
         behavior: "smooth",
       });
-      setTimeout(updateScrollButtons, 300); // Delay to allow smooth scrolling to complete
+      setTimeout(updateScrollButtons, 100); // Delay to allow smooth scrolling to complete
     }
   };
 
@@ -41,7 +41,7 @@ const CategoryBar = () => {
         left: -80,
         behavior: "smooth",
       });
-      setTimeout(updateScrollButtons, 300); // Delay to allow smooth scrolling to complete
+      setTimeout(updateScrollButtons, 300);
     }
   };
 
