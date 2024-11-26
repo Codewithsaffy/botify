@@ -27,7 +27,7 @@ const Comments = ({
   postId: string;
   isAuthenticated: boolean;
   initialCommentsNo: number;
-  commenterDetail: Commenter;
+  commenterDetail: Commenter | null;
 }) => {
   const router = useRouter();
   const [comments, setComments] = React.useState<Comment[]>([]);
@@ -46,7 +46,7 @@ const Comments = ({
     setIsSending(true);
 
     try {
-      const res = await postComment(commentInput, commenterDetail._id!, postId);
+      const res = await postComment(commentInput, commenterDetail?._id!, postId);
       if (res?.data.commentData) {
         setCommentInput("");
         setNoOfComments(noOfComments + 1);

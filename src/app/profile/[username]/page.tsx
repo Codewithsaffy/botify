@@ -80,7 +80,7 @@ const ProfileContent = async ({ username }: { username: string }) => {
       <ProfileBottom
         initialAbout={auther?.about}
         autherId={auther?._id.toString()}
-        email={auther.email}
+        email={auther.email || ""}
         isAuthenticated={auth.user?._id.toString() === auther?._id.toString()}
       />
     </main>

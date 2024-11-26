@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Schema } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import { Follow } from "@/models/Follow.model";
 import { Post } from "@/models/Post.model";
 import { User } from "@/models/User.model";
@@ -29,7 +29,7 @@ export async function GET(
     const followedAuthorsIds = userFollows.map((follow) => follow.authorId);
 
     const userLikes = await Post.aggregate([
-      { $match: { likerId: new Schema.Types.ObjectId(userId) } },
+      { $match: { likerId: new mongoose.Types.ObjectId(userId) } },
       { $group: { _id: "$authorId", count: { $sum: 1 } } },
       { $sort: { count: -1 } },
     ]);

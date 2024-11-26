@@ -19,7 +19,7 @@ const PrivateHeaderComponents = async ({ user }: { user: TUser }) => {
         </Link>
         <SearchBtn className="sm:hidden flex" />
 
-        <NotificationBtn userId={user._id!} />
+        <NotificationBtn userId={user?._id as string} />
         <ProfileBtn user={user} />
       </div>
     </>

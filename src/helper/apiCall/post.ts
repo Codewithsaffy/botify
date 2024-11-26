@@ -47,3 +47,13 @@ export const getPostContent = async (id: string) => {
     console.error(error);
   }
 };
+
+
+export const getBlog = async (slug: string) => {
+  try {
+    const response = await httpAxios.get(`/api/post/${slug}`);
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};

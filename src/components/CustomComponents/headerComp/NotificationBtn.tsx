@@ -11,15 +11,12 @@ import {
 import Link from "next/link";
 import { TNotification } from "../../../../types";
 import { formatDistanceToNow } from "date-fns";
+import { getNotification } from "@/helper/apiCall/notification";
 
 const NotificationBtn = async ({ userId }: { userId: string }) => {
-  const res = await fetch(
-    `${process.env.BASE_URL}/api/user/notification/${userId}`
-  );
-  if (!res.ok) {
-    throw new Error("Failed to fetch data");
-  }
-  const { notifications } = await res.json();
+  const res = await getNotification(userId)
+
+  const { notifications } = await res?.data
   let no = notifications.length > 99 ? "99+" : notifications.length;
 
   return (
@@ -78,7 +75,6 @@ const NotificationBtn = async ({ userId }: { userId: string }) => {
         </div>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
-          {/* <ClearAllNotificationBtn userId={userId} /> */}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
