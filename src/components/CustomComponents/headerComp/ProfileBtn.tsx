@@ -32,6 +32,11 @@ const ProfileBtn = async ({ user }: { user: TUser }) => {
          View Profile
           </Link>
         </DropdownMenuItem>
+        <DropdownMenuItem>
+          <Link href={`/new-post/${user.username}/${user._id}`}>
+          Write Post
+          </Link>
+        </DropdownMenuItem>
         <DropdownMenuItem>Billing</DropdownMenuItem>
         <DropdownMenuItem>Team</DropdownMenuItem>
         <DropdownMenuItem>Subscription</DropdownMenuItem>

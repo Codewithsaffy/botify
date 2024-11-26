@@ -24,6 +24,7 @@ const CreatePost = ({
 }: {
   params: { username: string; id: string };
 }) => {
+  
   const [step, setStep] = useState(0);
   const { toast } = useToast();
   const [image, setImage] = useState<string | undefined>();

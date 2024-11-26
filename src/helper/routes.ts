@@ -1,9 +1,9 @@
 export const ROOT = "/";
 export const LOGIN = "/login";
 export const PUBLIC_ROUTES = [
-  "/register",
-  "/login",
-  "/allProducts",
+  "/signin",
+  "/",
+  "/profile/:path*",
   "/api/auth/callback/google",
   "/api/auth/callback/github",
   "/api/register",

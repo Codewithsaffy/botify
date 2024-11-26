@@ -21,7 +21,7 @@ async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/check"]
+  matcher: ["/check"],
 };
 
 export default middleware;
