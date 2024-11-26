@@ -24,17 +24,18 @@ const SkeletonLoader = () => {
 };
 
 const ProfileContent = async ({ username }: { username: string }) => {
-  const data = await getProfile(username);
+  const name = decodeURIComponent(username);
+  const data = await getProfile(name);
   const auther = data?.data[0];
   const auth = await isAuthenticated();
 
   return (
-    <main className="flex flex-col max-w-5xl min-h-[calc(100vh-64px)] gap-6 mx-auto p-4 sm:p-6">
-      <section className="relative bg-white shadow-lg rounded-lg overflow-hidden">
+    <main className="flex flex-col max-w-5xl min-h-screen gap-6 mx-auto p-0 sm:p-6">
+      <section className="relative bg-white shadow-lg rounded-none sm:rounded-lg overflow-hidden">
         <Image
           src="/damythumbnail.jpeg"
           alt="Profile Thumbnail"
-          className="w-full object-cover h-40 sm:h-48 md:h-60 rounded-t-lg"
+          className="w-full object-cover h-40 sm:h-48 md:h-60  rounded-t-none sm:rounded-t-lg"
           width={1024}
           height={1024}
         />

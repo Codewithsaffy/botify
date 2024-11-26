@@ -10,7 +10,7 @@ import PostEditOrDelete from "./PostEditOrDelete";
 
 const BlogCard = ({ cardData, isAuthenticated, edit }: { cardData: CardData; isAuthenticated?: boolean; edit?: boolean }) => {
   return (
-    <div className="flex relative flex-col gap-4 border-b-[1px] border-gray-300 py-5 px-3 sm:px-4">
+    <div className="flex relative flex-col gap-4 border-b-[1px] border-gray-300 py-5 px-2 sm:px-4">
       <Link
         href={`/profile/${cardData.author.username}`}
         className="flex items-center space-x-2"
@@ -32,7 +32,7 @@ const BlogCard = ({ cardData, isAuthenticated, edit }: { cardData: CardData; isA
       <Link href={`/blog/${cardData.slug}`} className="flex flex-col gap-3">
         <div className="flex justify-between items-start gap-3">
           <div className="flex-1 flex flex-col gap-1">
-            <h2 className="text-base sm:text-lg md:text-xl lg:text-2xl font-extrabold text-gray-800 line-clamp-2">
+            <h2 className="text-base sm:text-lg md:text-xl lg:text-2xl sm:font-extrabold sm:tracking-normal tracking-tight leading-tight font-semibold text-gray-800 line-clamp-2">
               {cardData.title}
             </h2>
             <p className="text-xs sm:text-sm text-gray-700 line-clamp-2">

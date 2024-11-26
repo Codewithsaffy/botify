@@ -15,7 +15,6 @@ export async function GET(
       );
     }
     await dbConnect();
-
     const profileData = await User.aggregate([
       {
         $match: {
