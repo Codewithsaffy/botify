@@ -41,7 +41,7 @@ export default async function Home({
   const category = searchParams?.category || "All";
 
   return (
-    <div className="relative flex max-w-screen justify-around">
+    <div className="relative min-h-screen flex max-w-screen justify-around">
       {/* Left Content */}
       <div className="flex flex-col w-full md:max-w-[520px] px-0 lg:px-0 lg:max-w-[750px] h-full">
         <Suspense fallback={<CategoryBarLoader />}>

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Lora, Roboto } from "next/font/google";
+import {  Lora, Roboto } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import Header from "@/components/layout/Header";
@@ -30,10 +30,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={` ${roboto.className} ${lora.variable}`}>
-           <Header /> 
-          {children}
-<Footer/>
-          <Toaster />
+        <Header />
+        {children}
+        <Footer />
+        <Toaster />
       </body>
     </html>
   );

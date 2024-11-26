@@ -2,7 +2,6 @@ import { User } from "@/models/User.model";
 import { NextRequest, NextResponse } from "next/server";
 import { dbConnect } from "@/helper/dbConnection";
 
-// Function to handle user creation (unchanged)
 export async function POST(req: NextRequest) {
   try {
     await dbConnect();
@@ -14,23 +13,26 @@ export async function POST(req: NextRequest) {
     const existingUser = await User.findOne({
       $or: [{ username: `@${username.trim().toLowerCase()}` }, { email }],
     });
-
-    if (!existingUser) {
-      const user = await User.create({
-        name,
-        username: `@${username.trim().toLowerCase()}`,
-        email,
-        image,
+    if (existingUser) {
+      return NextResponse.json({
+        user: existingUser,
+        message: "User already exists",
       });
-      await user.save();
-
-      if (!user) {
-        return new NextResponse("Failed to create user", { status: 500 });
-      }
-      return NextResponse.json(user, { status: 201 });
     }
-
-    return new NextResponse("User already exists", { status: 200 });
+    const user = await User.create({
+      name,
+      username: `@${username.trim().toLowerCase()}`,
+      email,
+      image,
+    });
+    const savedUser = await user.save();
+    if (savedUser) {
+      return NextResponse.json({
+        user: savedUser,
+        message: "User created successfully",
+      });
+    }
+    return new NextResponse("User not created", { status: 400 });
   } catch (err) {
     console.log(err);
     return new NextResponse("Internal Server Error", { status: 500 });

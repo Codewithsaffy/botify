@@ -16,14 +16,6 @@ export async function doLogout() {
   await signOut();
 }
 
-// export async function credentialsLogin(formData: FormData) {
-//   const response = await signIn("credentials", {
-//     email: formData.get("email"),
-//     password: formData.get("password"),
-//     redirectTo: "/redirecting",
-//   });
-//   return response;
-// }
 export interface IAuthencation {
   isAuthenticated: boolean;
   user?: TUser;

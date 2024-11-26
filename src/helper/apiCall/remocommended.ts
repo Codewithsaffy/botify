@@ -1,7 +1,6 @@
 import { httpAxios } from "../httpAxios";
 
-export async function getRecommendedAuthosr(userId: string) {
-  if (!userId) return;
+export async function getRecommendedAuthosr(userId: string | "") {
   try {
     const res = await httpAxios.get(`/api/recommended/author/${userId}`);
     return res;
