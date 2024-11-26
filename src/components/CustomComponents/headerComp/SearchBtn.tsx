@@ -58,7 +58,7 @@ const SearchBtn = ({ className }: { className: string }) => {
           </div>
         </DialogTrigger>
 
-        <DialogContent className="sm:w-[500px] w-[300px]  max-h-[300px] p-0 overflow-y-scroll">
+        <DialogContent className="sm:w-[500px] w-[300px]  max-h-[300px] p-0 overflow-y-auto">
           <DialogHeader className="w-full bg-white px-4 pt-4 pb-2 sticky top-0 ">
             <div className="flex border-b border-gray-300 items-center justify-between gap-4 w-full">
               <CiSearch size={25} />

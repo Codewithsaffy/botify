@@ -137,7 +137,7 @@ const CreatePost = ({
   };
 
   return (
-    <main className="flex flex-col items-center justify-center px-6 py-8 mx-auto max-w-screen-md space-y-8 bg-white shadow-lg rounded-lg">
+    <main className="flex flex-col items-center justify-center sm:px-6 sm:py-8 mx-auto px-2 py-6 max-w-screen-md space-y-8 bg-white shadow-lg rounded-lg">
       {/* Progress Indicator */}
       <div className="flex justify-center gap-3">
         {[0, 1].map((index) => (
@@ -152,7 +152,7 @@ const CreatePost = ({
 
       {/* Step 1: Basic Details */}
       {step === 0 && (
-        <section className="w-full p-6 space-y-6 bg-blue-50 rounded-lg shadow-sm border">
+        <section className="w-full p-2 sm:p-6 space-y-6 bg-white md:bg-blue-50 rounded-lg shadow-sm border-none sm:border">
           <h2 className="text-2xl font-bold text-blue-600 text-center">
             Add Basic Details
           </h2>
@@ -295,32 +295,37 @@ const CreatePost = ({
 
       {/* Step 2: Content */}
       {step === 1 && (
-        <section className="w-full space-y-6 p-6 rounded-lg shadow-lg bg-blue-50 border">
-          <h2 className="text-2xl font-bold text-blue-600 text-center">
-            Add Content
-          </h2>
-          <RichTextEditor
-            value={postDetails.content}
-            setValue={(value) =>
-              setPostDetails({ ...postDetails, content: value })
-            }
-          />
-          <div className="flex justify-end">
-            <button
-              className="px-4 py-2 bg-gray-200 text-blue-700 rounded-lg hover:bg-blue-100 transition-all"
-              onClick={() => setStep(0)}
-            >
-              Back
-            </button>
-            <button
-              onClick={() => handleSubmit()}
-              className="px-4 py-2 ml-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition-all"
-            >
-              Save
-            </button>
-          </div>
-        </section>
-      )}
+  <section className="w-full space-y-4 p-1 sm:p-6 rounded-lg shadow-lg border-none md:bg-blue-50 bg-white sm:border">
+    <h2 className="text-xl sm:text-2xl font-bold text-blue-600 text-center">
+      Add Content
+    </h2>
+    {/* RichTextEditor Section */}
+    <div className="w-full bg-white rounded-md shadow-none sm:shadow-sm  sm:border sm:border-gray-200 p-0 sm:p-4">
+      <RichTextEditor
+        value={postDetails.content}
+        setValue={(value) =>
+          setPostDetails({ ...postDetails, content: value })
+        }
+      />
+    </div>
+    {/* Buttons Section */}
+    <div className="flex flex-col sm:flex-row justify-end gap-4 sm:gap-6 mt-4">
+      <button
+        className="px-4 py-2 bg-gray-200 text-blue-700 rounded-lg hover:bg-blue-100 transition-all"
+        onClick={() => setStep(0)}
+      >
+        Back
+      </button>
+      <button
+        onClick={() => handleSubmit()}
+        className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition-all"
+      >
+        Save
+      </button>
+    </div>
+  </section>
+)}
+
     </main>
   );
 };

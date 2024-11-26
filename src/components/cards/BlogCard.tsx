@@ -22,7 +22,7 @@ const BlogCard = ({ cardData, isAuthenticated, edit }: { cardData: CardData; isA
           height={32}
           quality={80}
           priority
-          className="h-8 w-8 rounded-full object-cover"
+          className="sm:h-8 sm:w-8 h-6 w-6 rounded-full object-cover"
         />
         <p className="hover:underline text-xs sm:text-sm text-gray-700 font-medium">
           {cardData.author.name}

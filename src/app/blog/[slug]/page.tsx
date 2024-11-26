@@ -39,9 +39,6 @@ const Blog = async ({ params }: { params: { slug: string } }) => {
 
   const fetchData = await fetch(
     `${process.env.BASE_URL}/api/post/${params.slug}`,
-    {
-      cache: "no-cache",
-    }
   );
   const data = await fetchData.json();
   const post: BlogPost = data.post;
@@ -51,7 +48,7 @@ const Blog = async ({ params }: { params: { slug: string } }) => {
   return (
     <main className="flex flex-col gap-4 px-4 py-6 sm:py-14 mx-auto max-w-[500px] sm:max-w-[700px]">
       <div className="flex flex-col gap-2">
-        <h2 className="text-4xl text-gray-900 font-bold font-lora leading-snug sm:text-4xl">
+        <h2 className="text-3xl text-gray-900 font-bold font-lora leading-snug sm:text-4xl">
           {post.title}
         </h2>
         <h4 className="text-lg font-medium text-gray-600 font-lora leading-snug sm:text-2xl">
@@ -105,14 +102,14 @@ const Blog = async ({ params }: { params: { slug: string } }) => {
       </section>
 
       <CloudnaryImage
-        src={post.image}
-        alt="post image"
-        width={500}
-        height={500}
-        quality={80}
-        priority
-        className="w-full h-[200px] md:h-[300px] rounded-sm"
-      />
+  src={post.image}
+  alt="post image"
+  width={500}
+  height={500}
+  quality={80}
+  priority
+  className="w-full aspect-video  md:aspect-square rounded-sm object-cover"
+/>
       <section className="w-full mt-4 max-w-[500px] sm:max-w-[700px] mx-auto prose prose-sm sm:prose-lg">
   {post.content ? (
     <div

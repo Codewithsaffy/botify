@@ -31,6 +31,7 @@ const CloudnaryImage = ({
         width={width}
         quality={quality}
         className={className}
+        loading="lazy"
       />
     </>
   );

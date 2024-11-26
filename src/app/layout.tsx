@@ -3,6 +3,7 @@ import { Inter, Lora, Roboto } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -31,6 +32,7 @@ export default function RootLayout({
       <body className={` ${roboto.className} ${lora.variable}`}>
            <Header /> 
           {children}
+<Footer/>
           <Toaster />
       </body>
     </html>

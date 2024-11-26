@@ -43,18 +43,18 @@ export default async function Home({
   return (
     <div className="relative flex max-w-screen justify-around">
       {/* Left Content */}
-      <div className="flex flex-col w-full md:max-w-[520px] px-2 lg:px-0 lg:max-w-[750px] h-full">
+      <div className="flex flex-col w-full md:max-w-[520px] px-0 lg:px-0 lg:max-w-[750px] h-full">
         <Suspense fallback={<CategoryBarLoader />}>
           <CategoryBar />
         </Suspense>
-        <div className="flex flex-col gap-10 py-5">
+        <div className="flex flex-col gap-10 pt-2  sm:pt-5">
           <Suspense fallback={<BlogCardsLoader />}>
             <AllBlogCards category={category as string} />
           </Suspense>
         </div>
       </div>
 
-      <div className="md:flex hidden md:w-[600px] sticky w-full top-0 lg:w-[400px] border-l border-gray-300 px-5 py-10 h-[calc(100vh)]">
+      <div className="md:flex hidden md:w-[600px] sticky w-full top-[56px] lg:w-[400px] border-l border-gray-300 px-5 py-10 h-[calc(100vh-64px)]">
         <Suspense fallback={<AuthorsLoader />}>
           <RecomendedAuthors />
         </Suspense>

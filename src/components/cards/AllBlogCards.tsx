@@ -11,7 +11,7 @@ const AllBlogCards = async ({ category }: { category: string }) => {
   const cardData = await res?.data.posts;
 
   return (
-    <div className="flex flex-col gap-8 py-6">
+    <div className="flex flex-col gap-8 pt-2 sm:py-6">
       {cardData?.map((cardData: CardData) => (
         <BlogCard key={cardData._id} cardData={cardData} />
       ))}

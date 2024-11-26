@@ -31,7 +31,7 @@ const CategoryBar = () => {
         left: 80,
         behavior: "smooth",
       });
-      setTimeout(updateScrollButtons, 100); // Delay to allow smooth scrolling to complete
+      setTimeout(updateScrollButtons, 100); 
     }
   };
 
@@ -46,13 +46,13 @@ const CategoryBar = () => {
   };
 
   return (
-    <nav className="flex  justify-between sticky top-[56px] z-10 bg-[#ffff] items-center pt-6 border-b-[1px] h-[70px] border-gray-300 w-full overflow-hidden px-10">
+    <nav className="flex  justify-between sticky top-[56px] z-10 bg-[#ffff] items-center pt-2 sm:pt-6 border-b-[1px] h-[60px] sm:h-[70px] border-gray-300 w-full overflow-hidden   px-4 sm:px-10">
       
 
       
       {/* Left Arrow */}
       <SlArrowLeft
-        className={`text-xl absolute left-0  hover:cursor-pointer ${
+        className={`text-xl absolute left-0 text-gray-900  hover:cursor-pointer ${
           !canScrollLeft ? "hidden" : ""
         }`}
         onClick={canScrollLeft ? scrollCategoriesLeft : undefined}
@@ -61,7 +61,7 @@ const CategoryBar = () => {
       {/* Categories List */}
       <ul
         ref={ref}
-        className="flex gap-4 font-normal h-full items-center text-gray-800 overflow-hidden no-scrollbar"
+        className="flex gap-4 font-normal h-full items-center text-gray-800 overflow-hidden no-scrollbar "
       >
         {categories.map((cat) => (
           <li
@@ -70,7 +70,7 @@ const CategoryBar = () => {
               currentCategory  === cat.category
                 ? "text-gray-900 font-normal border-b border-gray-900"
                 : "text-gray-500"
-            } hover:text-gray-900 text-sm sm:text-sm transition h-full text-center flex justify-center items-center`}
+            } hover:text-gray-900 text-xs sm:text-sm transition h-full text-center flex justify-center items-center`}
           >
             <Link href={`?category=${cat.category}`}>{cat.category}</Link>
           </li>
@@ -79,7 +79,7 @@ const CategoryBar = () => {
 
       {/* Right Arrow */}
       <SlArrowRight
-        className={`text-xl absolute right-0  hover:cursor-pointer ${
+        className={`text-xl absolute right-0  text-gray-900 hover:cursor-pointer ${
           !canScrollRight ? "hidden" : ""
         }`}
         onClick={canScrollRight ? scrollCategoriesRight : undefined}

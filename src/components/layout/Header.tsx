@@ -9,7 +9,7 @@ const HeaderComponent = async () => {
   const authenticated = await isAuthenticated();
 
   return (
-    <nav className="flex justify-between sticky top-0 bg-white z-10 border-b-[1px] border-gray-300 items-center px-6 h-14">
+    <nav className="flex justify-between sticky top-0 bg-white z-10 border-b-[1px] border-gray-300 items-center px-4 sm:px-6 h-14">
       <div className="flex justify-between items-center gap-8">
         <Link className="flex justify-center  items-center gap-1" href={"/"}>
         <Image
@@ -24,7 +24,7 @@ const HeaderComponent = async () => {
             alt="Botify"
             height={80}
             width={80}
-            className="sm:h-[30px] sm:w-[80px] h-[20px] w-[60px]"
+            className="sm:h-[30px] sm:w-[80px] h-[30px] w-[80px]"
           />
         </Link>
         <SearchBtn className="sm:flex hidden"/>
