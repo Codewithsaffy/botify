@@ -10,7 +10,6 @@ import MarkdownRenderer from "@/components/ui/MarkDown";
 import { Skeleton } from "@/components/ui/skeleton";
 import CloudnaryImage from "@/components/CustomComponents/CloudnaryImage";
 import Link from "next/link";
-import { getBlog } from "@/helper/apiCall/post";
 
 export const revalidate = 60;
 
@@ -35,38 +34,19 @@ const PostPageLoader = () => (
 );
 
 const Blog = async ({ params }: { params: { slug: string } }) => {
-  let auth = null;
-  let post: BlogPost | null = null;
+  const auth = await isAuthenticated();
+  const userId = auth?.user?._id?.toString();
 
-  try {
-    auth = await isAuthenticated();
-  } catch (error) {
-    console.error("Authentication error:", error);
-  }
-
-  try {
-    const fetchData = await getBlog(params.slug);
-    const data = await fetchData?.data();
-    post = data?.post || null;
-  } catch (error) {
-    console.error("Error fetching blog post:", error);
-  }
-
-  if (!post) {
-    return (
-      <div className="text-center text-gray-500 py-10">
-        <h2 className="text-2xl font-semibold">Post not found</h2>
-        <p>Please check the URL or try again later.</p>
-      </div>
-    );
-  }
-
-  const userId = auth?.user?._id?.toString() || "";
+  const fetchData = await fetch(
+    `${process.env.BASE_URL}/api/post/${params.slug}`
+  );
+  const data = await fetchData.json();
+  const post: BlogPost = data.post;
   const date = new Date(post.createdAt);
   const publishDate = format(date, "MMM d, yyyy");
 
   return (
-    <main className="flex flex-col gap-4 px-4 py-6 sm:py-14 mx-auto max-w-[500px] sm:max-w-[700px]">
+    <main className="flex flex-col min-h-[calc(100vh-64px)] gap-4 px-4 py-6 sm:py-14 mx-auto max-w-[500px] sm:max-w-[700px]">
       <div className="flex flex-col gap-2">
         <h2 className="text-3xl text-gray-900 font-bold font-lora leading-snug sm:text-4xl">
           {post.title}
@@ -78,7 +58,7 @@ const Blog = async ({ params }: { params: { slug: string } }) => {
       <section className="flex items-center gap-3 w-full mt-2">
         <Image
           src={`/damyuser.avif`}
-          alt={`${post.author?.name || "Author"}'s profile`}
+          alt="user image"
           width={40}
           height={40}
           quality={80}
@@ -88,20 +68,18 @@ const Blog = async ({ params }: { params: { slug: string } }) => {
         <div className="flex flex-col">
           <div className="flex items-center gap-2">
             <Link
-              href={`/profile/${post.author?.username}`}
+              href={`/profile/${post.author.username}`}
               className="text-gray-900 text-sm hover:underline sm:text-base font-semibold"
             >
-              {post.author?.name || "Unknown Author"}
+              {post.author.name}
             </Link>
             <p>.</p>
-            {post.author?._id && (
-              <FollowBtn
-                simple={true}
-                isAuthenticated={auth?.isAuthenticated || false}
-                userId={userId}
-                AuthorId={post.author._id.toString()}
-              />
-            )}
+            <FollowBtn
+              simple={true}
+              isAuthenticated={auth.isAuthenticated}
+              userId={userId!}
+              AuthorId={post.author._id.toString()}
+            />
           </div>
           <div className="flex flex-wrap gap-2 items-center">
             <p className="text-gray-700 text-xs sm:text-sm">
@@ -113,30 +91,29 @@ const Blog = async ({ params }: { params: { slug: string } }) => {
       </section>
       <section className="flex items-center gap-6 border-y border-gray-200 py-3">
         <LikeBtn
-          isAuthenticated={auth?.isAuthenticated || false}
-          likerId={userId}
+          isAuthenticated={auth.isAuthenticated}
+          likerId={userId || ""}
           postId={post._id}
           likes={post.likes}
         />
         <Comments
           initialCommentsNo={post.commentCount}
           postId={post._id}
-          isAuthenticated={auth?.isAuthenticated || false}
-          commenterDetail={auth?.user ? auth.user : null}
+          isAuthenticated={auth.isAuthenticated}
+          commenterDetail={JSON.parse(JSON.stringify(auth.user || {}))}
         />
       </section>
-      {post.image && (
-        <CloudnaryImage
-          src={post.image}
-          alt={post.title}
-          width={500}
-          height={500}
-          quality={80}
-          priority
-          className="w-full aspect-video rounded-sm object-cover"
-        />
-      )}
-      <section className="w-full mt-6 max-w-[500px] sm:max-w-[700px] mx-auto prose">
+
+      <CloudnaryImage
+        src={post.image}
+        alt="post image"
+        width={500}
+        height={500}
+        quality={80}
+        priority
+        className="w-full aspect-video   rounded-sm object-cover"
+      />
+      <section className="w-full mt-6 max-w-[500px] sm:max-w-[700px] mx-auto prose ">
         {post.content ? (
           <div dangerouslySetInnerHTML={{ __html: post.content }}></div>
         ) : (

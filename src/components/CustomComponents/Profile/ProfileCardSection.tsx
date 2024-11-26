@@ -151,7 +151,7 @@ const ProfileBottom = ({
                 <AlertDialogFooter>
                   <AlertDialogAction
                     className="rounded-full px-4 py-2 text-white bg-blue-500 font-bold shadow-md hover:bg-blue-600"
-                    onClick={handleAddBio}
+                    onClick={() => handleAddBio()}
                   >
                     {loading ? (
                       <FiLoader className="animate-spin text-lg" />

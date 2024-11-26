@@ -29,7 +29,7 @@ const ProfileContent = async ({ username }: { username: string }) => {
   const auth = await isAuthenticated();
 
   return (
-    <main className="flex flex-col max-w-5xl gap-6 mx-auto p-4 sm:p-6">
+    <main className="flex flex-col max-w-5xl min-h-[calc(100vh-64px)] gap-6 mx-auto p-4 sm:p-6">
       <section className="relative bg-white shadow-lg rounded-lg overflow-hidden">
         <Image
           src="/damythumbnail.jpeg"
@@ -80,7 +80,7 @@ const ProfileContent = async ({ username }: { username: string }) => {
       <ProfileBottom
         initialAbout={auther?.about}
         autherId={auther?._id.toString()}
-        email={auther.email || ""}
+        email={auther?.email}
         isAuthenticated={auth.user?._id.toString() === auther?._id.toString()}
       />
     </main>

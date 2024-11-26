@@ -30,6 +30,9 @@ export const editUser = async (
     thumbnail?: string;
   }
 ) => {
+  if (!email) {
+    return;
+  }
   try {
     const response = await httpAxios.patch("/api/user", { email, ...data });
     return response;
