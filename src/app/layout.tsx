@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import {  Lora, Roboto } from "next/font/google";
+import { Lora, Roboto } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import Header from "@/components/layout/Header";
@@ -31,7 +31,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={` ${roboto.className} ${lora.variable}`}>
         <Header />
-        {children}
+        <main className="min-h-[calc(100vh-64px)]">{children}</main>
         <Footer />
         <Toaster />
       </body>

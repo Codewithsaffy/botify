@@ -1,10 +1,15 @@
 import { auth } from "@/auth";
 import { registerUser } from "@/helper/apiCall/user.api";
 import { redirect } from "next/navigation";
+import { Suspense } from "react";
 
-const Page = async () => {
+const RegisterPage = async () => {
   const session = await auth();
-  if (!session?.user) return redirect("/signin");
+
+  if (!session?.user) {
+    redirect("/signin");
+  }
+
   const username = session.user.email!.split("@")[0];
   const res = await registerUser({
     name: session.user.name as string,
@@ -12,7 +17,24 @@ const Page = async () => {
     image: session.user.image as string,
     username,
   });
-  return redirect("/");
+  console.log(res?.data.user);
+  if (res?.data.user) {
+    redirect("/");
+  }
+
+  return null;
 };
 
-export default Page;
+const Loading = () => (
+  <div className="flex justify-center min-h-screen items-center">
+    <div className="loader"></div>
+  </div>
+);
+
+export default function Page() {
+  return (
+    <Suspense fallback={<Loading />}>
+      <RegisterPage />
+    </Suspense>
+  );
+}

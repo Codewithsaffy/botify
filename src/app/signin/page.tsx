@@ -1,11 +1,9 @@
-import React, { Suspense } from "react";
+import React from "react";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 
-import { doSocialLogin, isAuthenticated } from "@/actions/authentication";
-import { redirect } from "next/navigation";
+import { doSocialLogin } from "@/actions/authentication";
 import FaceBookButton from "@/components/buttons/FaceBookButton";
-import { auth } from "@/auth";
 
 const SocialProviderData = [
   {
@@ -21,8 +19,6 @@ const SocialProviderData = [
 ];
 
 const RegisterPage = async () => {
- const session = await auth();
-  if (session?.user) return redirect("/dashboard");
 
 
  return (
