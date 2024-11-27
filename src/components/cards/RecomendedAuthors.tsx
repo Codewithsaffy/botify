@@ -24,7 +24,7 @@ const RecommendedAuthors = async () => {
           Recommended Authors
         </h2>
         <div className="flex flex-col gap-4">
-          {recommendedAuthors.length > 0 ? (
+          {recommendedAuthors && recommendedAuthors.length > 0 ? (
             recommendedAuthors.map((author: any) => (
               <div
                 key={author._id}

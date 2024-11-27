@@ -57,7 +57,7 @@ const Blog = async ({ params }: { params: { slug: string } }) => {
       </div>
       <section className="flex items-center gap-3 w-full mt-2">
         <Image
-          src={`/damyuser.avif`}
+          src={post.author.image === "" ? "/damyuser.jpeg" : post.author.image}
           alt="user image"
           width={40}
           height={40}

@@ -90,7 +90,7 @@ const Comments = ({
         <p className="text-gray-500 text-sm">{noOfComments}</p>
       </SheetTrigger>
 
-      <SheetContent className="overflow-y-auto">
+      <SheetContent className="overflow-y-auto p-2 sm:p-4">
         <SheetHeader>
           <SheetTitle className="text-xl font-semibold text-gray-800 flex items-center gap-2">
             Comments <FaRegSmile className="text-yellow-500" />

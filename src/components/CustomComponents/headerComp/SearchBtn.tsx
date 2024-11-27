@@ -92,7 +92,7 @@ const SearchBtn = ({ className }: { className: string }) => {
                     href={
                       result.type === "user"
                         ? `/profile/${result.username}`
-                        : `/post/${result.slug}`
+                        : `/blog/${result.slug}`
                     }
                     className="flex items-center justify-between gap-2 hover:bg-gray-200 py-2 px-4 rounded-lg"
                   >
