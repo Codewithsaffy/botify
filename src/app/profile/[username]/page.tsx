@@ -5,6 +5,8 @@ import ProfileBottom from "@/components/CustomComponents/Profile/ProfileCardSect
 import { getProfile } from "@/helper/apiCall/profile";
 import Image from "next/image";
 import { Skeleton } from "@/components/ui/skeleton";
+import CloudnaryImage from "@/components/CustomComponents/CloudnaryImage";
+import { FaCamera } from "react-icons/fa";
 
 const SkeletonLoader = () => {
   return (
@@ -32,18 +34,27 @@ const ProfileContent = async ({ username }: { username: string }) => {
   return (
     <main className="flex flex-col max-w-5xl min-h-screen gap-6 mx-auto p-0 sm:p-6">
       <section className="relative bg-white shadow-lg rounded-none sm:rounded-lg overflow-hidden">
-        <Image
-          src="/damythumbnail.jpeg"
+        <CloudnaryImage
+          src={auther.thumbnail ? auther.thumbnail : "damythumbnail_awmazc"}
           alt="Profile Thumbnail"
           className="w-full object-cover h-40 sm:h-48 md:h-60  rounded-t-none sm:rounded-t-lg"
           width={1024}
           height={1024}
         />
 
+        {auther.username === auth.user?.username && (
+          <div className="absolute h-12 w-12 sm:h-14 sm:w-14 bg-gradient-to-r from-gray-800 to-gray-900 shadow-lg rounded-full flex items-center justify-center top-2 right-2 sm:top-4 sm:right-4 border border-gray-700 hover:scale-110 transition-transform duration-300 ease-in-out group cursor-pointer">
+            <FaCamera
+              size={18}
+              className="text-gray-300 sm:size-22 group-hover:text-white transition-colors duration-300 ease-in-out"
+            />
+          </div>
+        )}
+
         <div className="flex flex-col sm:flex-row gap-4 mt-4 p-4 items-center sm:items-start">
           <div className="relative flex-shrink-0">
             <Image
-              src="/damyuser.avif"
+              src={auther.image === "" ? "/damyuser.jpeg" : auther.image}
               alt="User Profile"
               className="rounded-full h-24 w-24 sm:h-36 sm:w-36 object-cover border-4 border-gray-200 shadow-lg"
               width={144}

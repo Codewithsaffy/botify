@@ -36,13 +36,15 @@ const RecommendedAuthors = async () => {
                 >
                   <div className="flex gap-2 items-center">
                     <Image
-                      src={"/damyuser.avif"}
+                      src={
+                        author.image === "" ? "/damyuser.jpeg" : author.image
+                      }
                       alt="user image"
                       width={32}
                       height={32}
                       quality={80}
                       priority
-                      className="h-8 w-8 rounded-full object-cover"
+                      className="sm:h-8 sm:w-8 h-6 w-6 rounded-full object-cover"
                     />
                     <h3 className="hover:underline text-xs sm:text-sm text-gray-700 font-medium">
                       {author.name}

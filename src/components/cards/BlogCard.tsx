@@ -16,7 +16,7 @@ const BlogCard = ({ cardData, isAuthenticated, edit }: { cardData: CardData; isA
         className="flex items-center space-x-2"
       >
         <Image
-          src={"/damyuser.avif"}
+          src={cardData.author.image === "" ? "/damyuser.jpeg" : cardData.author.image}
           alt="user image"
           width={32}
           height={32}

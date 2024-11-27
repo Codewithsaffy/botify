@@ -1,6 +1,6 @@
 import React, { Suspense } from "react";
 import BlogCard from "./BlogCard";
-import { getAllBlogCards } from "@/helper/apiCall/blodCards";
+import { getAllBlogCards } from "@/helper/apiCall/blogCards";
 import { CardData } from "../../../types";
 import { Skeleton } from "@/components/ui/skeleton";
 
