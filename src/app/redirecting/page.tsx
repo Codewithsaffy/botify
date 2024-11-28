@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import { postNotification } from "@/helper/apiCall/notification";
 import { registerUser } from "@/helper/apiCall/user.api";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
@@ -17,8 +18,12 @@ const RegisterPage = async () => {
     image: session.user.image as string,
     username,
   });
-  console.log(res?.data.user);
   if (res?.data.user) {
+    await postNotification(
+      res?.data.user._id,
+      `${res?.data.user.name} Welcome to Botify`,
+      "/"
+    );
     redirect("/");
   }
 

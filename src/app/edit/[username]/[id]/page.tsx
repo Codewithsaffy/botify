@@ -39,7 +39,6 @@ const Page = ({ params }: { params: { username: string; id: string } }) => {
     setIsUpdating(true); 
     try {
       const res = await updatePost(_id, content);
-      console.log(res);
       toast({
         description: "Post Published Successfully!",
       });

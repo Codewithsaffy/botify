@@ -10,21 +10,32 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { getAllComments, postComment } from "@/helper/apiCall/comments";
-import { FaComment, FaRegSmile, FaPaperPlane, FaSpinner, FaRegComment } from "react-icons/fa";
+import {
+  FaComment,
+  FaRegSmile,
+  FaPaperPlane,
+  FaSpinner,
+  FaRegComment,
+} from "react-icons/fa";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
 import { Comment, Commenter } from "../../../types";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { postNotification } from "@/helper/apiCall/notification";
 
 const Comments = ({
   postId,
+  authorId,
+  postSlug,
   commenterDetail,
   isAuthenticated,
   initialCommentsNo,
 }: {
   postId: string;
+  authorId: string;
+  postSlug: string;
   isAuthenticated: boolean;
   initialCommentsNo: number;
   commenterDetail: Commenter | null;
@@ -46,7 +57,11 @@ const Comments = ({
     setIsSending(true);
 
     try {
-      const res = await postComment(commentInput, commenterDetail?._id!, postId);
+      const res = await postComment(
+        commentInput,
+        commenterDetail?._id!,
+        postId
+      );
       if (res?.data.commentData) {
         setCommentInput("");
         setNoOfComments(noOfComments + 1);
@@ -59,6 +74,11 @@ const Comments = ({
           },
           ...comments,
         ]);
+        await postNotification(
+          authorId,
+          `${commenterDetail?.name} commented on your post`,
+          `/blog/${postSlug}`
+        );
       }
     } catch (error) {
       console.error(error);

@@ -2,7 +2,6 @@
 
 import { Schema } from "mongoose";
 
-// User type
 
 export interface TUser {
   _id?: string;
@@ -14,7 +13,6 @@ export interface TUser {
   about?: string;
 }
 
-// Follow type
 export interface TFollow {
   _id?: string;
   userId: Schema.Types.ObjectId;
@@ -40,7 +38,6 @@ export interface TNotification {
   userId: Schema.Types.ObjectId;
   message: string;
   url: string;
-  read?: boolean;
   createdAt?: Date;
   updatedAt?: Date;
 }

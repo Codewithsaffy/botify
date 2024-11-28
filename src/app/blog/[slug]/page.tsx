@@ -79,6 +79,8 @@ const Blog = async ({ params }: { params: { slug: string } }) => {
               isAuthenticated={auth.isAuthenticated}
               userId={userId!}
               AuthorId={post.author._id.toString()}
+              userName={auth.user?.username as string}
+              name={auth.user?.name as string}
             />
           </div>
           <div className="flex flex-wrap gap-2 items-center">
@@ -95,12 +97,17 @@ const Blog = async ({ params }: { params: { slug: string } }) => {
           likerId={userId || ""}
           postId={post._id}
           likes={post.likes}
+          likerName={auth.user?.name as string}
+          postSlug={post.slug}
+          authorId={post.author._id.toString()}
         />
         <Comments
           initialCommentsNo={post.commentCount}
           postId={post._id}
           isAuthenticated={auth.isAuthenticated}
           commenterDetail={JSON.parse(JSON.stringify(auth.user || {}))}
+          authorId={post.author._id.toString()}
+          postSlug={post.slug}
         />
       </section>
 

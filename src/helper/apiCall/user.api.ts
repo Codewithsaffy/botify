@@ -11,9 +11,9 @@ export const registerUser = async (data: TUser) => {
     console.error(error);
   }
 };
-export const getAllUsers = async () => {
+export const getUser = async (email: string) => {
   try {
-    const response = await httpAxios.get("/api/register");
+    const response = await httpAxios.get(`/api/user/find/${email}`);
     return response;
   } catch (error) {
     console.error(error);
@@ -26,7 +26,6 @@ export const editUser = async (
     name?: string;
     image?: string;
     about?: string;
-    username?: string;
     thumbnail?: string;
   }
 ) => {

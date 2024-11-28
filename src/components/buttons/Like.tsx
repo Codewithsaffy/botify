@@ -3,15 +3,22 @@ import React, { useEffect } from "react";
 import { AiFillLike, AiOutlineLike } from "react-icons/ai"; // Importing icons
 import { useRouter } from "next/navigation";
 import { createLikeIfNotExist, isLikePost } from "@/helper/apiCall/Likes";
+import { postNotification } from "@/helper/apiCall/notification";
 
 const LikeBtn = ({
   likerId,
   postId,
+  likerName,
   isAuthenticated,
+  authorId,
+  postSlug,
   likes,
 }: {
   likerId?: string;
   postId: string;
+  likerName:string;
+  postSlug:string;
+  authorId:string;
   isAuthenticated: boolean;
   likes: number;
 }) => {
@@ -53,6 +60,11 @@ const LikeBtn = ({
     setIsLoading(true);
     try {
       const postFollower = await createLikeIfNotExist(likerId!, postId);
+      await postNotification(
+        authorId,
+        `${likerName} liked your post`,
+        `/blog/${postSlug}`
+      )
       setIsLike(postFollower?.data.isLike || false);
       setNoOfLikes(postFollower?.data.noOfLikes);
       console.log(postFollower);

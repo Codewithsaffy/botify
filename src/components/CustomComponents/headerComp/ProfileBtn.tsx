@@ -10,9 +10,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 import Logout from "@/components/buttons/Logout";
-import { FaUser, FaEdit, FaSignOutAlt } from "react-icons/fa";
+import { FaUser, FaEdit, FaSignOutAlt, FaUserEdit } from "react-icons/fa";
 
 const ProfileBtn = async ({ user }: { user: TUser }) => {
+  const email = decodeURIComponent(user.email);
   return (
     <DropdownMenu>
       {/* Profile Image as Trigger */}
@@ -36,6 +37,17 @@ const ProfileBtn = async ({ user }: { user: TUser }) => {
             className="text-sm font-medium text-gray-700 hover:text-blue-600 transition-all"
           >
             View Profile
+          </Link>
+        </DropdownMenuItem>
+
+        {/* Edit Profile */}
+        <DropdownMenuItem className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 transition-colors">
+          <FaUserEdit className="text-yellow-500" />
+          <Link
+            href={`/profile/edit/${email}`}
+            className="text-sm font-medium text-gray-700 hover:text-yellow-600 transition-all"
+          >
+            Edit Profile
           </Link>
         </DropdownMenuItem>
 

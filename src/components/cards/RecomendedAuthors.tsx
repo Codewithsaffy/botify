@@ -56,6 +56,8 @@ const RecommendedAuthors = async () => {
                   isAuthenticated={auth.isAuthenticated}
                   userId={userId!}
                   AuthorId={author._id}
+                  userName={auth.user?.username as string}
+                  name={author.name}
                 />
               </div>
             ))

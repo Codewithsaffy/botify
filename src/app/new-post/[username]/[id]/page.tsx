@@ -69,7 +69,6 @@ const CreatePost = ({
     try {
       const slug = postDetails.slug;
       const res = await checkSlug(slug, params.id);
-      console.log(res?.data.exists)
       setSlugExists(res?.data.exists);
       setSlugMessage(
         res?.data.exists

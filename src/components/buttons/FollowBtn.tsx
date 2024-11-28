@@ -4,15 +4,20 @@ import { AiOutlinePlus } from "react-icons/ai"; // Importing icons
 import { createFollowerIfNotExist, isFollow } from "@/helper/apiCall/follow";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
+import { postNotification } from "@/helper/apiCall/notification";
 
 const FollowBtn = ({
   userId,
   AuthorId,
+  userName,
+  name,
   isAuthenticated,
   simple,
 }: {
   userId: string;
   AuthorId: string;
+  userName: string;
+  name: string;
   isAuthenticated: boolean;
   simple: boolean;
 }) => {
@@ -49,6 +54,11 @@ const FollowBtn = ({
     try {
       const postFollower = await createFollowerIfNotExist(userId, AuthorId);
       setIsFollowing(postFollower?.data.isFollow || false);
+      await postNotification(
+        AuthorId,
+        `${name} started following you`,
+        `/profile/${userName}`
+      );
     } catch (error) {
       setIsFollowing(false);
     } finally {
