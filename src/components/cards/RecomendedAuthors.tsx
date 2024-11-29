@@ -11,7 +11,7 @@ const RecommendedAuthors = async () => {
   try {
     const auth = await isAuthenticated();
     const userId = auth?.user?._id?.toString();
-    const authors = await getRecommendedAuthosr(userId! || "");
+    const authors = await getRecommendedAuthosr();
     const recommendedAuthors = authors?.data?.recommendedAuthors;
     console.log(
       "authors" + authors?.data.recommendedAuthors,

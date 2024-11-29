@@ -31,7 +31,7 @@ const SkeletonLoader = () => {
 const ProfileContent = async ({ username }: { username: string }) => {
   const name = decodeURIComponent(username);
   const data = await getProfile(name);
-  const auther = data?.data[0];
+  const auther = data?.data.profileData;
   const auth = await isAuthenticated();
 
   return (
