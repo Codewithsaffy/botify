@@ -72,7 +72,7 @@ const ProfileContent = async ({ username }: { username: string }) => {
           <div className="flex flex-col sm:flex-row gap-4 mt-4 p-4 items-center sm:items-start">
             <div className="relative flex-shrink-0">
               <Image
-                src={auther.image === "" ? "/damyuser.jpeg" : auther.image}
+                src={auther.image === "" || auther.image === undefined ? "/damyuser.jpeg" : auther.image}
                 alt="User Profile"
                 className="rounded-full h-24 w-24 sm:h-36 sm:w-36 object-cover border-4 border-gray-200 shadow-lg"
                 width={144}
