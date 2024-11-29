@@ -4,7 +4,7 @@ import AllBlogCards from "@/components/cards/AllBlogCards";
 import RecomendedAuthors from "@/components/cards/RecomendedAuthors";
 import { Skeleton } from "@/components/ui/skeleton";
 
-export const revalidate = 60;
+export const revalidate = 60; 
 
 const BlogCardsLoader = () => (
   <div className="flex flex-col gap-4 py-5">
@@ -14,6 +14,7 @@ const BlogCardsLoader = () => (
   </div>
 );
 
+// Fallback skeleton loader for recommended authors
 const AuthorsLoader = () => (
   <div className="flex flex-col gap-4">
     {[...Array(5)].map((_, idx) => (
@@ -25,6 +26,7 @@ const AuthorsLoader = () => (
   </div>
 );
 
+// Fallback skeleton loader for the category bar
 const CategoryBarLoader = () => (
   <div className="flex gap-2 overflow-x-auto px-2">
     {[...Array(5)].map((_, idx) => (
@@ -38,27 +40,42 @@ export default async function Home({
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  const category = searchParams?.category || "All";
+  try {
+    // Default to "All" if no category is provided
+    const category = searchParams?.category || "All";
 
-  return (
-    <div className="relative min-h-screen flex max-w-screen justify-around">
-      {/* Left Content */}
-      <div className="flex flex-col w-full md:max-w-[520px] px-0 lg:px-0 lg:max-w-[750px] h-full">
-        <Suspense fallback={<CategoryBarLoader />}>
-          <CategoryBar />
-        </Suspense>
-        <div className="flex flex-col gap-10 pt-2  sm:pt-5">
-          <Suspense fallback={<BlogCardsLoader />}>
-            <AllBlogCards category={category as string} />
+    return (
+      <div className="relative min-h-screen flex max-w-screen justify-around">
+        {/* Left Content */}
+        <div className="flex flex-col w-full md:max-w-[520px] px-0 lg:px-0 lg:max-w-[750px] h-full">
+          {/* Suspense for CategoryBar */}
+          <Suspense fallback={<CategoryBarLoader />}>
+            <CategoryBar />
+          </Suspense>
+          <div className="flex flex-col gap-10 pt-2 sm:pt-5">
+            {/* Suspense for AllBlogCards */}
+            <Suspense fallback={<BlogCardsLoader />}>
+              <AllBlogCards category={category as string} />
+            </Suspense>
+          </div>
+        </div>
+
+        {/* Right Content (Recommended Authors) */}
+        <div className="md:flex hidden md:w-[600px] sticky w-full top-[56px] lg:w-[400px] border-l border-gray-300 px-5 py-10 h-[calc(100vh-64px)]">
+          <Suspense fallback={<AuthorsLoader />}>
+            <RecomendedAuthors />
           </Suspense>
         </div>
       </div>
-
-      <div className="md:flex hidden md:w-[600px] sticky w-full top-[56px] lg:w-[400px] border-l border-gray-300 px-5 py-10 h-[calc(100vh-64px)]">
-        <Suspense fallback={<AuthorsLoader />}>
-          <RecomendedAuthors />
-        </Suspense>
+    );
+  } catch (error) {
+    console.error("Error rendering Home page:", error);
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-red-500 text-lg font-semibold">
+          Something went wrong. Please try again later.
+        </p>
       </div>
-    </div>
-  );
+    );
+  }
 }

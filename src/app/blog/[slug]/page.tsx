@@ -37,11 +37,24 @@ const Blog = async ({ params }: { params: { slug: string } }) => {
   const auth = await isAuthenticated();
   const userId = auth?.user?._id?.toString();
 
+  if (!process.env.BASE_URL) {
+    throw new Error("BASE_URL is not defined in the environment variables.");
+  }
+
   const fetchData = await fetch(
-    `${process.env.BASE_URL}/api/post/${params.slug}`
+    `${process.env.BASE_URL}/api/post/${params.slug}`,
+    {
+      cache: "no-cache",
+    }
   );
+
+  if (!fetchData.ok) {
+    throw new Error(`Failed to fetch post data: ${fetchData.statusText}`);
+  }
+
   const data = await fetchData.json();
   const post: BlogPost = data.post;
+
   const date = new Date(post.createdAt);
   const publishDate = format(date, "MMM d, yyyy");
 
@@ -79,8 +92,8 @@ const Blog = async ({ params }: { params: { slug: string } }) => {
               isAuthenticated={auth.isAuthenticated}
               userId={userId!}
               AuthorId={post.author._id.toString()}
-              userName={auth.user?.username as string}
-              name={auth.user?.name as string}
+              userName={auth.user?.username || ""}
+              name={auth.user?.name || ""}
             />
           </div>
           <div className="flex flex-wrap gap-2 items-center">
@@ -95,17 +108,17 @@ const Blog = async ({ params }: { params: { slug: string } }) => {
         <LikeBtn
           isAuthenticated={auth.isAuthenticated}
           likerId={userId || ""}
-          postId={post._id}
+          postId={post._id.toString()}
           likes={post.likes}
-          likerName={auth.user?.name as string}
+          likerName={auth.user?.name || ""}
           postSlug={post.slug}
           authorId={post.author._id.toString()}
         />
         <Comments
           initialCommentsNo={post.commentCount}
-          postId={post._id}
+          postId={post._id.toString()}
           isAuthenticated={auth.isAuthenticated}
-          commenterDetail={JSON.parse(JSON.stringify(auth.user || {}))}
+          commenterDetail={JSON.parse(JSON.stringify(auth.user))}
           authorId={post.author._id.toString()}
           postSlug={post.slug}
         />
@@ -118,9 +131,9 @@ const Blog = async ({ params }: { params: { slug: string } }) => {
         height={500}
         quality={80}
         priority
-        className="w-full aspect-video   rounded-sm object-cover"
+        className="w-full aspect-video rounded-sm object-cover"
       />
-      <section className="w-full mt-6 max-w-[500px] sm:max-w-[700px] mx-auto prose ">
+      <section className="w-full mt-6 max-w-[500px] sm:max-w-[700px] mx-auto prose">
         {post.content ? (
           <div dangerouslySetInnerHTML={{ __html: post.content }}></div>
         ) : (

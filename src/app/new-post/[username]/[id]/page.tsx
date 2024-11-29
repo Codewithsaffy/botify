@@ -131,6 +131,9 @@ const CreatePost = ({
     }
     try {
       const res = await createPost(postDetails);
+      if (res?.data) {
+        
+      }
       console.log(res);
     } catch (err) {
       console.log(err);
