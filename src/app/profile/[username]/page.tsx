@@ -29,14 +29,8 @@ const SkeletonLoader = () => {
 };
 
 const ProfileContent = async ({ username }: { username: string }) => {
-  const data = await getProfile(username);
-  if (!data?.data.profileData) {
-    return (
-      <div className="h-screen w-full font-extrabold text-2xl flex justify-center items-center">
-        user not found
-      </div>
-    );
-  }
+  const name = decodeURIComponent(username);
+  const data = await getProfile(name);
   const auther = data?.data[0];
   const auth = await isAuthenticated();
 
@@ -52,10 +46,7 @@ const ProfileContent = async ({ username }: { username: string }) => {
         />
 
         {auther?.username === auth.user?.username && (
-          <Link
-            href={`/profile/edit/${auther?.email}`}
-            className="absolute h-12 w-12 sm:h-14 sm:w-14 bg-gradient-to-r from-gray-800 to-gray-900 shadow-lg rounded-full flex items-center justify-center top-2 right-2 sm:top-4 sm:right-4 border border-gray-700 hover:scale-110 transition-transform duration-300 ease-in-out group cursor-pointer"
-          >
+          <Link href={`/profile/edit/${auther?.email}`} className="absolute h-12 w-12 sm:h-14 sm:w-14 bg-gradient-to-r from-gray-800 to-gray-900 shadow-lg rounded-full flex items-center justify-center top-2 right-2 sm:top-4 sm:right-4 border border-gray-700 hover:scale-110 transition-transform duration-300 ease-in-out group cursor-pointer">
             <FaUserEdit
               size={18}
               className="text-gray-300 sm:size-22 group-hover:text-white transition-colors duration-300 ease-in-out"
@@ -114,11 +105,10 @@ const ProfileContent = async ({ username }: { username: string }) => {
 };
 
 const ProfilePage = ({ params }: { params: { username: string } }) => {
-  const username = decodeURIComponent(params.username);
   return (
     <Suspense fallback={<SkeletonLoader />}>
       {/* Fetch and render profile content */}
-      <ProfileContent username={username} />
+      <ProfileContent username={params.username} />
     </Suspense>
   );
 };
