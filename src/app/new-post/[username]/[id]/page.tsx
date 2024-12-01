@@ -18,17 +18,17 @@ import { useToast } from "@/hooks/use-toast";
 import { checkSlug, createPost } from "@/helper/apiCall/post";
 import { CldImage } from "next-cloudinary";
 import { TPost } from "../../../../../types";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 
 const CreatePost = ({
   params,
 }: {
   params: { username: string; id: string };
 }) => {
-  
   const [step, setStep] = useState(0);
   const { toast } = useToast();
   const [image, setImage] = useState<string | undefined>();
+  const [loading, setLoading] = useState(false);
   const [postDetails, setPostDetails] = useState<TPost>({
     title: "",
     slug: "",
@@ -47,6 +47,7 @@ const CreatePost = ({
   const [slugMessage, setSlugMessage] = useState("");
   const [slugExists, setSlugExists] = useState(false);
 
+  const router = useRouter();
   // Handle Title and Slug
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newTitle = e.target.value;
@@ -126,15 +127,18 @@ const CreatePost = ({
     }
   };
   const handleSubmit = async () => {
+    setLoading(true);
     if (postDetails.content.trim() === "") {
       toast({ description: "Content cannot be empty." });
       return;
     }
     try {
       const res = await createPost(postDetails);
-      redirect("/")
+      router.push("/");
     } catch (err) {
       throw new Error("Failed to create post");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -297,37 +301,37 @@ const CreatePost = ({
 
       {/* Step 2: Content */}
       {step === 1 && (
-  <section className="w-full space-y-4 p-1 sm:p-6 rounded-lg shadow-lg border-none md:bg-blue-50 bg-white sm:border">
-    <h2 className="text-xl sm:text-2xl font-bold text-blue-600 text-center">
-      Add Content
-    </h2>
-    {/* RichTextEditor Section */}
-    <div className="w-full bg-white rounded-md shadow-none sm:shadow-sm  sm:border sm:border-gray-200 p-0 sm:p-4">
-      <RichTextEditor
-        value={postDetails.content}
-        setValue={(value) =>
-          setPostDetails({ ...postDetails, content: value })
-        }
-      />
-    </div>
-    {/* Buttons Section */}
-    <div className="flex flex-col sm:flex-row justify-end gap-4 sm:gap-6 mt-4">
-      <button
-        className="px-4 py-2 bg-gray-200 text-blue-700 rounded-lg hover:bg-blue-100 transition-all"
-        onClick={() => setStep(0)}
-      >
-        Back
-      </button>
-      <button
-        onClick={() => handleSubmit()}
-        className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition-all"
-      >
-        Save
-      </button>
-    </div>
-  </section>
-)}
-
+        <section className="w-full space-y-4 p-1 sm:p-6 rounded-lg shadow-lg border-none md:bg-blue-50 bg-white sm:border">
+          <h2 className="text-xl sm:text-2xl font-bold text-blue-600 text-center">
+            Add Content
+          </h2>
+          {/* RichTextEditor Section */}
+          <div className="w-full bg-white rounded-md shadow-none sm:shadow-sm  sm:border sm:border-gray-200 p-0 sm:p-4">
+            <RichTextEditor
+              value={postDetails.content}
+              setValue={(value) =>
+                setPostDetails({ ...postDetails, content: value })
+              }
+            />
+          </div>
+          {/* Buttons Section */}
+          <div className="flex flex-col sm:flex-row justify-end gap-4 sm:gap-6 mt-4">
+            <button
+              className="px-4 py-2 bg-gray-200 text-blue-700 rounded-lg hover:bg-blue-100 transition-all"
+              onClick={() => setStep(0)}
+            >
+              Back
+            </button>
+            <button
+              onClick={() => handleSubmit()}
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition-all"
+              disabled={loading}
+            >
+              {loading ? "Posting..." : "post"}
+            </button>
+          </div>
+        </section>
+      )}
     </main>
   );
 };

@@ -7,14 +7,14 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { FaSpinner } from "react-icons/fa";
 import { toast } from "@/hooks/use-toast";
-import { redirect } from "next/navigation";
+import {  useRouter } from "next/navigation";
 
 const Page = ({ params }: { params: { username: string; id: string } }) => {
   const _id = decodeURIComponent(params.id);
   const [content, setContent] = useState("");
-  const username = decodeURIComponent(params.username);
   const [isLoading, setIsLoading] = useState(true);
   const [isUpdating, setIsUpdating] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchContent = async () => {
@@ -46,7 +46,7 @@ const Page = ({ params }: { params: { username: string; id: string } }) => {
       toast({
         description: "Post Published Successfully!",
       });
-      redirect("/");
+      router.push("/");
     } catch (error) {
       console.log(error);
       toast({

@@ -5,8 +5,8 @@ export async function createPost(postData: TPost) {
   try {
     const response = await httpAxios.post(`/api/post`, postData);
     return response;
-  } catch (error) {
-    throw new Error("Failed to create post");
+  } catch (error: any) {
+    throw new Error("Failed to create post" + error.message);
   }
 }
 export async function checkSlug(slug: string, authorId: string) {
@@ -47,7 +47,6 @@ export const getPostContent = async (id: string) => {
     throw new Error("Failed to fetch post content");
   }
 };
-
 
 export const getBlog = async (slug: string) => {
   try {

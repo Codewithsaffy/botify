@@ -8,6 +8,9 @@ export const revalidate = 60;
 
 const AllBlogCards = async ({ category }: { category: string }) => {
   const res = await getAllBlogCards(category);
+  if (res.data.posts.length === 0 || !res.data.posts) {
+    throw new Error("This category does not exist");
+  }
   const cardData = await res?.data.posts;
 
   return (
