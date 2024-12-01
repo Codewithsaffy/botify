@@ -18,6 +18,7 @@ import { useToast } from "@/hooks/use-toast";
 import { checkSlug, createPost } from "@/helper/apiCall/post";
 import { CldImage } from "next-cloudinary";
 import { TPost } from "../../../../../types";
+import { redirect } from "next/navigation";
 
 const CreatePost = ({
   params,
@@ -131,12 +132,9 @@ const CreatePost = ({
     }
     try {
       const res = await createPost(postDetails);
-      if (res?.data) {
-        
-      }
-      console.log(res);
+      redirect("/")
     } catch (err) {
-      console.log(err);
+      throw new Error("Failed to create post");
     }
   };
 

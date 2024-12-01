@@ -42,14 +42,9 @@ const Blog = async ({ params }: { params: { slug: string } }) => {
     cache: "no-cache",
   });
   if (!fetchData.ok) {
-    return (
-      <main className="flex flex-col min-h-[calc(100vh-64px)] gap-4 px-4 py-6 sm:py-14 mx-auto max-w-[500px] sm:max-w-[700px]">
-        <h2 className="text-3xl text-gray-900 font-bold font-lora leading-snug sm:text-4xl">
-          Post not found
-        </h2>
-      </main>
-    );
+    throw new Error("Failed to fetch data");
   }
+  console.log(fetchData)
   const data = await fetchData.json();
   const post: BlogPost = data.post;
   const date = new Date(post.createdAt);

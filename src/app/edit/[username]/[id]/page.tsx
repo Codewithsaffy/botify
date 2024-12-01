@@ -4,9 +4,10 @@ import React, { useEffect, useState, Suspense } from "react";
 import { getPostContent, updatePost } from "../../../../helper/apiCall/post";
 import RichTextEditor from "@/components/CustomComponents/NewPost/RichTextEditor";
 import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton"; 
-import { FaSpinner } from "react-icons/fa"; 
+import { Skeleton } from "@/components/ui/skeleton";
+import { FaSpinner } from "react-icons/fa";
 import { toast } from "@/hooks/use-toast";
+import { redirect } from "next/navigation";
 
 const Page = ({ params }: { params: { username: string; id: string } }) => {
   const _id = decodeURIComponent(params.id);
@@ -23,11 +24,14 @@ const Page = ({ params }: { params: { username: string; id: string } }) => {
         if (res?.data.postContent.content === null) {
           toast({
             description: "Post not found",
-          })
+          });
         }
         setContent(res?.data.postContent.content);
       } catch (error) {
-        console.log(error);
+        toast({
+          description: "Failed to fetch post content",
+        });
+        throw new Error("Failed to fetch post content");
       } finally {
         setIsLoading(false);
       }
@@ -36,20 +40,21 @@ const Page = ({ params }: { params: { username: string; id: string } }) => {
   }, []);
 
   const handlePublish = async () => {
-    setIsUpdating(true); 
+    setIsUpdating(true);
     try {
       const res = await updatePost(_id, content);
       toast({
         description: "Post Published Successfully!",
       });
+      redirect("/");
     } catch (error) {
       console.log(error);
       toast({
         description: "Failed to publish the post",
-        variant: "destructive"
+        variant: "destructive",
       });
     } finally {
-      setIsUpdating(false); 
+      setIsUpdating(false);
     }
   };
 
@@ -59,9 +64,11 @@ const Page = ({ params }: { params: { username: string; id: string } }) => {
         fallback={
           <div className="flex flex-col max-w-5xl gap-6 mx-auto animate-pulse p-4">
             <Skeleton className="w-full h-12 mb-6" /> {/* Title Skeleton */}
-            <Skeleton className="w-full h-40 sm:h-48 md:h-60 rounded-md" /> {/* Editor Skeleton */}
+            <Skeleton className="w-full h-40 sm:h-48 md:h-60 rounded-md" />{" "}
+            {/* Editor Skeleton */}
             <div className="flex justify-end mt-6">
-              <Skeleton className="h-10 w-32 rounded-lg" /> {/* Button Skeleton */}
+              <Skeleton className="h-10 w-32 rounded-lg" />{" "}
+              {/* Button Skeleton */}
             </div>
           </div>
         }
@@ -69,9 +76,11 @@ const Page = ({ params }: { params: { username: string; id: string } }) => {
         {isLoading ? (
           <div className="flex flex-col max-w-5xl gap-6 mx-auto animate-pulse p-4">
             <Skeleton className="w-full h-12 mb-6" /> {/* Title Skeleton */}
-            <Skeleton className="w-full h-40 sm:h-48 md:h-60 rounded-md" /> {/* Editor Skeleton */}
+            <Skeleton className="w-full h-40 sm:h-48 md:h-60 rounded-md" />{" "}
+            {/* Editor Skeleton */}
             <div className="flex justify-end mt-6">
-              <Skeleton className="h-10 w-32 rounded-lg" /> {/* Button Skeleton */}
+              <Skeleton className="h-10 w-32 rounded-lg" />{" "}
+              {/* Button Skeleton */}
             </div>
           </div>
         ) : (

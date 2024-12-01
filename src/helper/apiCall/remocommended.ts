@@ -5,15 +5,6 @@ export async function getRecommendedAuthosr() {
     const res = await httpAxios.get(`/api/recommended/author`);
     return res;
   } catch (error) {
-    console.error(error);
+    throw new Error("Failed to get recommended authors");
   }
 }
-// export async function getRecommendedPosts(userId: string) {
-//   try {
-//     const userId = (await isAuthenticated()).user?._id?.toString();
-//     const res = await httpAxios.get(`/api/recommended/post?userId=${userId}`);
-//     return res;
-//   } catch (error) {
-//     console.error(error);
-//   }
-// }

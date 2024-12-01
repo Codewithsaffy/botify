@@ -5,7 +5,7 @@ export async function isFollow(userId: string, authorId: string) {
     const response = await httpAxios.get(`/api/follow/${userId}/${authorId}`);
     return response;
   } catch (error) {
-    console.error(error);
+    throw new Error("Failed to check follow status");
   }
 }
 export async function createFollowerIfNotExist(
@@ -16,6 +16,6 @@ export async function createFollowerIfNotExist(
     const response = await httpAxios.post(`/api/follow`, { userId, authorId });
     return response;
   } catch (error) {
-    console.error(error);
+    throw new Error("Failed to create follower");
   }
 }

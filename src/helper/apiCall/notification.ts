@@ -5,7 +5,7 @@ export const getNotification = async (userId: string) => {
     const res = httpAxios.get(`/api/user/notification/${userId}`);
     return res;
   } catch (error) {
-    console.error(error);
+    throw new Error("Failed to get notification");
   }
 };
 
@@ -22,6 +22,6 @@ export const postNotification = async (
     });
     return res;
   } catch (error) {
-    console.error(error);
+    throw new Error("Failed to create notification");
   }
 };

@@ -8,7 +8,7 @@ export const registerUser = async (data: TUser) => {
     const response = await httpAxios.post("/api/user", data);
     return response;
   } catch (error) {
-    console.error(error);
+    throw new Error("Failed to register user");
   }
 };
 export const getUser = async (email: string) => {
@@ -16,7 +16,7 @@ export const getUser = async (email: string) => {
     const response = await httpAxios.get(`/api/user/find/${email}`);
     return response;
   } catch (error) {
-    console.error(error);
+    throw new Error("Failed to fetch user");
   }
 };
 

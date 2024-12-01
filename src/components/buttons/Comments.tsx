@@ -156,7 +156,7 @@ const Comments = ({
               >
                 <Link href={`/profile/${comment.commenter.username}`}>
                   <Image
-                    src={`/damyuser.avif`}
+                    src={`${comment.commenter.image}` || "/damyuser.jpeg"}
                     alt={`${comment.commenter.name} profile image`}
                     width={40}
                     height={40}

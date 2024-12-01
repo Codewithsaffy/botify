@@ -5,7 +5,7 @@ export const getAllComments = async (postId: string) => {
     const response = await httpAxios.get(`/api/comment/${postId}`);
     return response;
   } catch (error) {
-    console.error(error);
+    throw new Error("Failed to fetch comments");
   }
 };
 
@@ -22,6 +22,6 @@ export const postComment = async (
     });
     return response;
   } catch (error) {
-    console.error(error);
+    throw new Error("Failed to create comment");
   }
 };

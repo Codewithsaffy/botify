@@ -1,10 +1,5 @@
 import { httpAxios } from "../httpAxios";
 
-interface Props {
-  category?: string;
-  // limit?: number;
-  // page?: number;
-}
 export async function getAllBlogCards(category: string) {
   try {
     const response = await httpAxios.get(
@@ -12,6 +7,6 @@ export async function getAllBlogCards(category: string) {
     );
     return response;
   } catch (error) {
-    console.error(error);
+    throw new Error("This category does not exist");
   }
 }
