@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { FaSpinner } from "react-icons/fa";
 import { toast } from "@/hooks/use-toast";
-import {  useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const Page = ({ params }: { params: { username: string; id: string } }) => {
   const _id = decodeURIComponent(params.id);
@@ -43,15 +43,13 @@ const Page = ({ params }: { params: { username: string; id: string } }) => {
     setIsUpdating(true);
     try {
       const res = await updatePost(_id, content);
+      router.push("/");
       toast({
         description: "Post Published Successfully!",
       });
-      router.push("/");
     } catch (error) {
-      console.log(error);
       toast({
-        description: "Failed to publish the post",
-        variant: "destructive",
+        description: "Failed to publish post",
       });
     } finally {
       setIsUpdating(false);

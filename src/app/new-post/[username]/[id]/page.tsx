@@ -134,6 +134,7 @@ const CreatePost = ({
     }
     try {
       const res = await createPost(postDetails);
+      toast({ description: "Post created successfully." });
       router.push("/");
     } catch (err) {
       throw new Error("Failed to create post");
