@@ -6,7 +6,7 @@ import NotificationBtn from "./NotificationBtn";
 import ProfileBtn from "./ProfileBtn";
 import SearchBtn from "./SearchBtn";
 
-const PrivateHeaderComponents = async ({ user }: { user: TUser }) => {
+const PrivateHeaderComponents = ({ user }: { user: TUser }) => {
   return (
     <>
       <div className="flex h-full justify-center space-x-4 sm:space-x-8 items-center">

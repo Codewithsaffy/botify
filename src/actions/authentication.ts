@@ -31,7 +31,9 @@ export async function isAuthenticated() {
     if (!user) {
       return { isAuthenticated: false };
     }
-    return { isAuthenticated: true, user: user };
+    // Convert Mongoose document to a plain object
+    const userObject = JSON.parse(JSON.stringify(user));
+    return { isAuthenticated: true, user: userObject };
   } catch (error) {
     console.error(error);
     return { isAuthenticated: false, message: "Internal Server Error" };

@@ -12,7 +12,7 @@ import Link from "next/link";
 import Logout from "@/components/buttons/Logout";
 import { FaUser, FaEdit, FaSignOutAlt, FaUserEdit } from "react-icons/fa";
 
-const ProfileBtn = async ({ user }: { user: TUser }) => {
+const ProfileBtn =  ({ user }: { user: TUser }) => {
   const email = decodeURIComponent(user.email);
   return (
     <DropdownMenu>

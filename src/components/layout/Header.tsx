@@ -29,8 +29,8 @@ const HeaderComponent = async () => {
         </Link>
         <SearchBtn className="sm:flex hidden"/>
       </div>
-      {authenticated.user && authenticated.isAuthenticated ? (
-        <PrivateHeaderComponents user={authenticated.user} />
+      {authenticated.isAuthenticated ? (
+        <PrivateHeaderComponents user={authenticated.user!} />
       ) : (
         <Link
           href="/signin"

@@ -1,4 +1,6 @@
-import React from "react";
+"use client"; // Mark this as a client component
+
+import React, { useEffect, useState } from "react";
 import { IoNotificationsOutline } from "react-icons/io5";
 import {
   DropdownMenu,
@@ -13,10 +15,29 @@ import { TNotification } from "../../../../types";
 import { formatDistanceToNow } from "date-fns";
 import { getNotification } from "@/helper/apiCall/notification";
 
-const NotificationBtn = async ({ userId }: { userId: string }) => {
-  const res = await getNotification(userId)
+const NotificationBtn = ({ userId }: { userId: string }) => {
+  const [notifications, setNotifications] = useState<TNotification[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const { notifications } = await res?.data
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const res = await getNotification(userId);
+        if (res?.data?.notifications) {
+          setNotifications(res.data.notifications);
+        }
+      } catch (err) {
+        setError("Failed to fetch notifications");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchNotifications();
+  }, [userId]);
+
   let no = notifications.length > 99 ? "99+" : notifications.length;
 
   return (
@@ -39,7 +60,15 @@ const NotificationBtn = async ({ userId }: { userId: string }) => {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <div className="divide-y divide-gray-200">
-          {notifications.length === 0 ? (
+          {loading ? (
+            <div className="flex flex-col items-center justify-center py-6">
+              <p className="text-gray-500 p-4">Loading notifications...</p>
+            </div>
+          ) : error ? (
+            <div className="flex flex-col items-center justify-center py-6">
+              <p className="text-gray-500 p-4">{error}</p>
+            </div>
+          ) : notifications.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-6">
               <IoNotificationsOutline
                 size={40}
@@ -61,7 +90,6 @@ const NotificationBtn = async ({ userId }: { userId: string }) => {
                     {notification.message}
                   </Link>
                   <p className="text-gray-500 text-sm">
-                    {/* Format the date to show "X ago" */}
                     {notification.createdAt
                       ? formatDistanceToNow(new Date(notification.createdAt), {
                           addSuffix: true,
@@ -75,6 +103,7 @@ const NotificationBtn = async ({ userId }: { userId: string }) => {
         </div>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
+          {/* Optional: Add a "Mark all as read" or "View all" option here */}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
