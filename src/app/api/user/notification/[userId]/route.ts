@@ -2,10 +2,8 @@ import { dbConnect } from "@/helper/dbConnection";
 import { Notification } from "@/models/Notificaion.model";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { userId: string } }
-) {
+export async function GET(req: NextRequest, props: { params: Promise<{ userId: string }> }) {
+  const params = await props.params;
   await dbConnect();
   const { userId } = params;
 
@@ -39,10 +37,8 @@ export async function GET(
   }
 }
 
-export async function DELETE(
-  req: NextRequest,
-  { params }: { params: { userId: string } }
-) {
+export async function DELETE(req: NextRequest, props: { params: Promise<{ userId: string }> }) {
+  const params = await props.params;
   try {
     const { userId } = params;
     if (!userId) {

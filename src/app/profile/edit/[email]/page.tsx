@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, use } from "react";
 import { TUser } from "../../../../../types";
 import { getUser, editUser } from "@/helper/apiCall/user.api";
 import UploadButton from "@/components/CustomComponents/NewPost/UploadButton";
@@ -8,7 +8,8 @@ import Image from "next/image";
 import { toast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton"; // Ensure the Skeleton component is imported
 
-const ProfileEditPage = ({ params }: { params: { email: string } }) => {
+const ProfileEditPage = (props: { params: Promise<{ email: string }> }) => {
+  const params = use(props.params);
   const [user, setUser] = useState<TUser | null>(null);
   const [formData, setFormData] = useState({
     name: "",

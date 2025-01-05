@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, use } from "react";
 import UploadButton from "@/components/CustomComponents/NewPost/UploadButton";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -20,11 +20,12 @@ import { CldImage } from "next-cloudinary";
 import { TPost } from "../../../../../types";
 import { redirect, useRouter } from "next/navigation";
 
-const CreatePost = ({
-  params,
-}: {
-  params: { username: string; id: string };
-}) => {
+const CreatePost = (
+  props: {
+    params: Promise<{ username: string; id: string }>;
+  }
+) => {
+  const params = use(props.params);
   const [step, setStep] = useState(0);
   const { toast } = useToast();
   const [image, setImage] = useState<string | undefined>();

@@ -2,10 +2,8 @@ import { dbConnect } from "@/helper/dbConnection";
 import { User } from "@/models/User.model";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { email: string } }
-) {
+export async function GET(req: NextRequest, props: { params: Promise<{ email: string }> }) {
+  const params = await props.params;
   await dbConnect();
   const { email } = params;
   if (!email) {

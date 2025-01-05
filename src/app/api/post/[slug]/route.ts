@@ -2,10 +2,8 @@ import { dbConnect } from "@/helper/dbConnection";
 import { Post } from "@/models/Post.model";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { slug: string } }
-) {
+export async function GET(req: NextRequest, props: { params: Promise<{ slug: string }> }) {
+  const params = await props.params;
   try {
     const { slug } = params;
     if (!slug) {

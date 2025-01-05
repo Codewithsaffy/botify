@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, Suspense } from "react";
+import React, { useEffect, useState, Suspense, use } from "react";
 import { getPostContent, updatePost } from "../../../../helper/apiCall/post";
 import RichTextEditor from "@/components/CustomComponents/NewPost/RichTextEditor";
 import { Button } from "@/components/ui/button";
@@ -9,7 +9,8 @@ import { FaSpinner } from "react-icons/fa";
 import { toast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 
-const Page = ({ params }: { params: { username: string; id: string } }) => {
+const Page = (props: { params: Promise<{ username: string; id: string }> }) => {
+  const params = use(props.params);
   const _id = decodeURIComponent(params.id);
   const [content, setContent] = useState("");
   const [isLoading, setIsLoading] = useState(true);

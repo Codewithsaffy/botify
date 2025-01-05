@@ -4,8 +4,9 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { likerId: string; postId: string } }
+  props: { params: Promise<{ likerId: string; postId: string }> }
 ) {
+  const params = await props.params;
   const { likerId, postId } = params;
 
   if (!likerId || !postId) {

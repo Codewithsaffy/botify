@@ -136,11 +136,12 @@ const Blog = async ({ params }: { params: { slug: string } }) => {
   );
 };
 
-export default function PageWithSuspense({
-  params,
-}: {
-  params: { slug: string };
-}) {
+export default async function PageWithSuspense(
+  props: {
+    params: Promise<{ slug: string }>;
+  }
+) {
+  const params = await props.params;
   return (
     <Suspense fallback={<PostPageLoader />}>
       <Blog params={params} />

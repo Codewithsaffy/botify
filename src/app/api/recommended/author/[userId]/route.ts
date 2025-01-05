@@ -7,8 +7,9 @@ import { dbConnect } from "@/helper/dbConnection";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { userId?: string | null | undefined} }
+  props: { params: Promise<{ userId?: string | null | undefined}> }
 ) {
+  const params = await props.params;
   const userId = params?.userId;
 
   try {

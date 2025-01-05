@@ -128,7 +128,8 @@ const ProfileContent = async ({ username }: { username: string }) => {
   }
 };
 
-const ProfilePage = ({ params }: { params: { username: string } }) => {
+const ProfilePage = async (props: { params: Promise<{ username: string }> }) => {
+  const params = await props.params;
   return (
     <Suspense fallback={<SkeletonLoader />}>
       <ProfileContent username={params.username} />

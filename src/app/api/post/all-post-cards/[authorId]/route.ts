@@ -3,10 +3,8 @@ import { Post } from "@/models/Post.model";
 import mongoose from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { authorId: string } }
-) {
+export async function GET(req: NextRequest, props: { params: Promise<{ authorId: string }> }) {
+  const params = await props.params;
   const { authorId } = params;
   if (!authorId) {
     return NextResponse.json(
