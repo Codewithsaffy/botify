@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import { AiFillLike, AiOutlineLike } from "react-icons/ai"; // Importing icons
 import { useRouter } from "next/navigation";
-import { createLikeIfNotExist, isLikePost } from "@/helper/apiCall/likes";
+import { createLikeIfNotExist, isLikePost } from "@/helper/apiCall/toogleLike";
 import { postNotification } from "@/helper/apiCall/notification";
 
 const LikeBtn = ({
