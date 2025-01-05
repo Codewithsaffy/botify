@@ -16,9 +16,9 @@ const LikeBtn = ({
 }: {
   likerId?: string;
   postId: string;
-  likerName:string;
-  postSlug:string;
-  authorId:string;
+  likerName: string;
+  postSlug: string;
+  authorId: string;
   isAuthenticated: boolean;
   likes: number;
 }) => {
@@ -64,7 +64,7 @@ const LikeBtn = ({
         authorId,
         `${likerName} liked your post`,
         `/blog/${postSlug}`
-      )
+      );
       setIsLike(postFollower?.data.isLike || false);
       setNoOfLikes(postFollower?.data.noOfLikes);
       console.log(postFollower);
@@ -88,7 +88,9 @@ const LikeBtn = ({
           />
         )}
       </button>
-        <p className="text-sm text-gray-600">{noOfLikes === null ? likes : noOfLikes}</p>
+      <p className="text-sm text-gray-600">
+        {noOfLikes === null ? likes : noOfLikes}
+      </p>
     </div>
   );
 };
