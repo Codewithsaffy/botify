@@ -4,7 +4,7 @@ import Image from "next/image";
 import FollowBtn from "@/components/buttons/FollowBtn";
 import { isAuthenticated } from "@/actions/authentication";
 import { format } from "date-fns";
-import LikeBtn from "@/components/buttons/like";
+import LikeBtn from "@/components/buttons/Like";
 import Comments from "@/components/buttons/Comments";
 import MarkdownRenderer from "@/components/ui/MarkDown";
 import { Skeleton } from "@/components/ui/skeleton";
